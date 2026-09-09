@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RANGS — Premium Electronics Store</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --bg:#0a0a0f;
+    --bg-2:#12121a;
+    --card:#1a1a24;
+    --border:#2a2a38;
+    --fg:#f4f4f5;
+    --muted:#9ca3af;
+    --accent:#e11d48;
+    --accent-2:#fb7185;
+    --gold:#f59e0b;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--fg);overflow-x:hidden}
+  .font-display{font-family:'Sora',sans-serif}
+  .glass{background:rgba(18,18,26,0.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+  .gradient-text{background:linear-gradient(135deg,#fff 0%,#fb7185 60%,#e11d48 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .grid-bg{background-image:linear-gradient(rgba(225,29,72,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(225,29,72,0.07) 1px,transparent 1px);background-size:50px 50px}
+  .glow{box-shadow:0 0 60px -10px rgba(225,29,72,0.5)}
+  .card-hover{transition:all .4s cubic-bezier(.2,.8,.2,1)}
+  .card-hover:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 20px 50px -20px rgba(225,29,72,0.4)}
+  .btn-primary{background:linear-gradient(135deg,#e11d48,#9f1239);transition:all .3s}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px -8px rgba(225,29,72,0.6)}
+  .scroll-hide::-webkit-scrollbar{display:none}
+  .marquee{animation:scroll 25s linear infinite}
+  @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  .fade-in{animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .pulse-dot{animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  input,textarea,select{outline:none}
+  input:focus,textarea:focus,select:focus{border-color:var(--accent)!important}
+  .modal-bg{background:rgba(0,0,0,0.85);backdrop-filter:blur(8px)}
+  .toast{animation:slideIn .3s ease,fadeOut .3s ease 2.7s forwards}
+  @keyframes slideIn{from{transform:translateX(400px)}to{transform:translateX(0)}}
+  @keyframes fadeOut{to{opacity:0;transform:translateX(400px)}}
+  .hero-img{background:radial-gradient(circle at 70% 30%,rgba(225,29,72,0.25),transparent 50%),radial-gradient(circle at 20% 70%,rgba(251,113,133,0.18),transparent 50%)}
+  .badge-new{background:linear-gradient(135deg,#10b981,#059669)}
+  .badge-sale{background:linear-gradient(135deg,#e11d48,#9f1239)}
+  .badge-hot{background:linear-gradient(135deg,#f59e0b,#d97706)}
+  .cart-bump{animation:bump .3s ease}
+  @keyframes bump{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+  .skeleton{background:linear-gradient(90deg,#1a1a24 25%,#2a2a38 50%,#1a1a24 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- Announcement bar -->
+<div class="bg-gradient-to-r from-rose-700 via-rose-600 to-rose-700 text-white text-xs sm:text-sm overflow-hidden">
+  <div class="flex whitespace-nowrap py-2 marquee">
+    <span class="px-6">⚡ MEGA SALE — Up to 40% off on premium appliances</span>
+    <span class="px-6">•</span>
+    <span class="px-6">🚚 Free delivery inside Dhaka</span>
+    <span class="px-6">•</span>
+    <span class="px-6">🛡️ Official warranty on every product</span>
+    <span class="px-6">•</span>
+    <span class="px-6">💳 Easy EMI available</span>
+    <span class="px-6">•</span>
+    <span class="px-6">⚡ MEGA SALE — Up to 40% off on premium appliances</span>
+    <span class="px-6">•</span>
+    <span class="px-6">🚚 Free delivery inside Dhaka</span>
+    <span class="px-6">•</span>
+    <span class="px-6">🛡️ Official warranty on every product</span>
+    <span class="px-6">•</span>
+    <span class="px-6">💳 Easy EMI available</span>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="sticky top-0 z-40 glass border-b border-white/5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
+    <a href="#" class="flex items-center gap-2">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-600 to-rose-900 flex items-center justify-center font-display font-extrabold text-white text-lg shadow-lg shadow-rose-900/50">R</div>
+      <div>
+        <div class="font-display font-extrabold text-xl leading-none">RANGS</div>
+        <div class="text-[10px] tracking-[0.3em] text-rose-400 mt-0.5">PREMIUM STORE</div>
+      </div>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-7 text-sm font-medium">
+      <a href="#home" class="hover:text-rose-400 transition">Home</a>
+      <a href="#categories" class="hover:text-rose-400 transition">Categories</a>
+      <a href="#products" class="hover:text-rose-400 transition">Products</a>
+      <a href="#deals" class="hover:text-rose-400 transition">Deals</a>
+      <a href="#contact" class="hover:text-rose-400 transition">Contact</a>
+    </nav>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <div class="hidden md:flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-3 py-2 w-64">
+        <i class="fas fa-search text-zinc-400 text-sm"></i>
+        <input id="searchInput" type="text" placeholder="Search products..." class="bg-transparent text-sm w-full border-none focus:ring-0 placeholder-zinc-500">
+      </div>
+      <button onclick="openAuth()" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition flex items-center justify-center">
+        <i class="fas fa-user text-zinc-300 text-sm"></i>
+      </button>
+      <button onclick="toggleCart()" class="relative w-10 h-10 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition flex items-center justify-center">
+        <i class="fas fa-shopping-bag text-zinc-300 text-sm"></i>
+        <span id="cartCount" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-rose-600 text-white text-[10px] font-bold flex items-center justify-center">0</span>
+      </button>
+      <a href="admin.html" target="_blank" class="hidden sm:flex w-10 h-10 rounded-xl bg-rose-600/20 border border-rose-600/40 hover:bg-rose-600/30 transition items-center justify-center" title="Admin Panel">
+        <i class="fas fa-shield-halved text-rose-400 text-sm"></i>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section id="home" class="relative overflow-hidden grid-bg">
+  <div class="absolute inset-0 hero-img"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 relative">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="fade-in">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium mb-6">
+          <span class="w-2 h-2 rounded-full bg-rose-400 pulse-dot"></span>
+          LIVE • New collection dropped
+        </div>
+        <h1 class="font-display font-extrabold text-5xl sm:text-6xl lg:text-7xl leading-[0.95] mb-6">
+          Premium <span class="gradient-text">Electronics</span><br>for modern living
+        </h1>
+        <p class="text-zinc-400 text-lg max-w-md mb-8">Discover a curated selection of televisions, refrigerators, air conditioners, and smart appliances — backed by official warranty.</p>
+        <div class="flex flex-wrap gap-3">
+          <a href="#products" class="btn-primary text-white px-7 py-3.5 rounded-xl font-semibold flex items-center gap-2">
+            Shop now <i class="fas fa-arrow-right text-sm"></i>
+          </a>
+          <a href="#deals" class="px-7 py-3.5 rounded-xl font-semibold border border-white/15 hover:bg-white/5 transition flex items-center gap-2">
+            View deals <i class="fas fa-fire text-amber-400 text-sm"></i>
+          </a>
+        </div>
+        <div class="flex items-center gap-8 mt-10 text-sm">
+          <div><div class="font-display font-bold text-2xl">12K+</div><div class="text-zinc-500 text-xs">Happy customers</div></div>
+          <div class="w-px h-10 bg-white/10"></div>
+          <div><div class="font-display font-bold text-2xl">500+</div><div class="text-zinc-500 text-xs">Products</div></div>
+          <div class="w-px h-10 bg-white/10"></div>
+          <div><div class="font-display font-bold text-2xl">4.9★</div><div class="text-zinc-500 text-xs">Avg rating</div></div>
+        </div>
+      </div>
+      <div class="relative hidden lg:block">
+        <div class="aspect-square rounded-3xl bg-gradient-to-br from-rose-600/30 via-rose-900/20 to-transparent border border-rose-500/30 p-8 glow">
+          <div class="grid grid-cols-2 gap-4 h-full">
+            <div class="bg-zinc-900/60 rounded-2xl border border-white/10 p-5 flex flex-col justify-between">
+              <i class="fas fa-tv text-4xl text-rose-400"></i>
+              <div>
+                <div class="text-xs text-zinc-500">Televisions</div>
+                <div class="font-bold">4K Smart TV</div>
+              </div>
+            </div>
+            <div class="bg-zinc-900/60 rounded-2xl border border-white/10 p-5 flex flex-col justify-between mt-8">
+              <i class="fas fa-snowflake text-4xl text-sky-400"></i>
+              <div>
+                <div class="text-xs text-zinc-500">Refrigerators</div>
+                <div class="font-bold">Inverter</div>
+              </div>
+            </div>
+            <div class="bg-zinc-900/60 rounded-2xl border border-white/10 p-5 flex flex-col justify-between">
+              <i class="fas fa-wind text-4xl text-emerald-400"></i>
+              <div>
+                <div class="text-xs text-zinc-500">AC</div>
+                <div class="font-bold">1.5 Ton</div>
+              </div>
+            </div>
+            <div class="bg-zinc-900/60 rounded-2xl border border-white/10 p-5 flex flex-col justify-between mt-8">
+              <i class="fas fa-blender text-4xl text-amber-400"></i>
+              <div>
+                <div class="text-xs text-zinc-500">Appliances</div>
+                <div class="font-bold">Smart</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="absolute -bottom-4 -left-4 bg-zinc-900 rounded-2xl border border-white/10 p-4 shadow-xl">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center"><i class="fas fa-truck-fast text-emerald-400"></i></div>
+            <div>
+              <div class="text-xs text-zinc-500">Delivery</div>
+              <div class="text-sm font-bold">Same day in Dhaka</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section id="categories" class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+  <div class="flex items-end justify-between mb-8">
+    <div>
+      <div class="text-rose-400 text-xs font-medium tracking-[0.3em] mb-2">CATEGORIES</div>
+      <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Shop by category</h2>
+    </div>
+    <a href="#products" class="hidden sm:flex items-center gap-2 text-sm text-zinc-400 hover:text-rose-400 transition">View all <i class="fas fa-arrow-right text-xs"></i></a>
+  </div>
+  <div id="categoryGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4"></div>
+</section>
+
+<!-- Flash Deals -->
+<section id="deals" class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+  <div class="rounded-3xl bg-gradient-to-br from-rose-900/40 via-zinc-900 to-zinc-900 border border-rose-500/20 p-6 sm:p-10">
+    <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+      <div>
+        <div class="flex items-center gap-2 text-amber-400 text-xs font-medium tracking-[0.3em] mb-2">
+          <i class="fas fa-bolt"></i> FLASH DEALS
+        </div>
+        <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Limited time offers</h2>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="text-zinc-400 text-sm">Ends in:</div>
+        <div class="flex gap-2">
+          <div class="bg-zinc-950 rounded-lg px-3 py-2 text-center min-w-[44px]">
+            <div id="dealH" class="font-display font-bold text-xl">12</div>
+            <div class="text-[10px] text-zinc-500">HRS</div>
+          </div>
+          <div class="bg-zinc-950 rounded-lg px-3 py-2 text-center min-w-[44px]">
+            <div id="dealM" class="font-display font-bold text-xl">45</div>
+            <div class="text-[10px] text-zinc-500">MIN</div>
+          </div>
+          <div class="bg-zinc-950 rounded-lg px-3 py-2 text-center min-w-[44px]">
+            <div id="dealS" class="font-display font-bold text-xl">30</div>
+            <div class="text-[10px] text-zinc-500">SEC</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="dealsGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-4"></div>
+  </div>
+</section>
+
+<!-- All Products -->
+<section id="products" class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+  <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+    <div>
+      <div class="text-rose-400 text-xs font-medium tracking-[0.3em] mb-2">ALL PRODUCTS</div>
+      <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Explore the collection</h2>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <select id="filterCategory" class="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm">
+        <option value="">All categories</option>
+      </select>
+      <select id="sortProducts" class="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm">
+        <option value="newest">Newest</option>
+        <option value="price-low">Price: Low to High</option>
+        <option value="price-high">Price: High to Low</option>
+        <option value="name">Name A-Z</option>
+      </select>
+    </div>
+  </div>
+  <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5"></div>
+  <div id="emptyState" class="hidden text-center py-20">
+    <i class="fas fa-box-open text-6xl text-zinc-700 mb-4"></i>
+    <h3 class="font-display font-bold text-xl mb-2">No products found</h3>
+    <p class="text-zinc-500">Try a different search or filter</p>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="border-y border-white/5 bg-zinc-950/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center"><i class="fas fa-shield-halved text-rose-400 text-xl"></i></div>
+      <div><div class="font-bold">Official Warranty</div><div class="text-xs text-zinc-500">On every product</div></div>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center"><i class="fas fa-truck-fast text-amber-400 text-xl"></i></div>
+      <div><div class="font-bold">Fast Delivery</div><div class="text-xs text-zinc-500">Inside Dhaka same-day</div></div>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center"><i class="fas fa-rotate-left text-emerald-400 text-xl"></i></div>
+      <div><div class="font-bold">Easy Returns</div><div class="text-xs text-zinc-500">7-day return policy</div></div>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center"><i class="fas fa-headset text-sky-400 text-xl"></i></div>
+      <div><div class="font-bold">24/7 Support</div><div class="text-xs text-zinc-500">Always here to help</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section id="contact" class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+  <div class="rounded-3xl bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 p-8 sm:p-14 text-center">
+    <h2 class="font-display font-extrabold text-3xl sm:text-4xl mb-3">Get exclusive deals first</h2>
+    <p class="text-zinc-400 max-w-xl mx-auto mb-7">Subscribe to our newsletter and receive early access to flash sales, new arrivals, and members-only discounts.</p>
+    <form onsubmit="subscribeNewsletter(event)" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+      <input type="email" required placeholder="your@email.com" class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder-zinc-500">
+      <button class="btn-primary text-white px-6 py-3 rounded-xl font-semibold">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="border-t border-white/5 bg-zinc-950">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 lg:grid-cols-5 gap-8">
+    <div class="col-span-2">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-600 to-rose-900 flex items-center justify-center font-display font-extrabold text-white text-lg">R</div>
+        <div><div class="font-display font-extrabold text-xl">RANGS</div><div class="text-[10px] tracking-[0.3em] text-rose-400">PREMIUM STORE</div></div>
+      </div>
+      <p class="text-zinc-500 text-sm max-w-xs mb-4">Your trusted destination for premium electronics and home appliances across Bangladesh.</p>
+      <div class="flex gap-3">
+        <a href="#" class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 hover:bg-rose-500/20 hover:border-rose-500/40 transition flex items-center justify-center"><i class="fab fa-facebook-f text-sm"></i></a>
+        <a href="#" class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 hover:bg-rose-500/20 hover:border-rose-500/40 transition flex items-center justify-center"><i class="fab fa-instagram text-sm"></i></a>
+        <a href="#" class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 hover:bg-rose-500/20 hover:border-rose-500/40 transition flex items-center justify-center"><i class="fab fa-youtube text-sm"></i></a>
+        <a href="#" class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 hover:bg-rose-500/20 hover:border-rose-500/40 transition flex items-center justify-center"><i class="fab fa-x-twitter text-sm"></i></a>
+      </div>
+    </div>
+    <div>
+      <div class="font-bold mb-4 text-sm">Shop</div>
+      <ul class="space-y-2 text-sm text-zinc-500">
+        <li><a href="#categories" class="hover:text-rose-400">Categories</a></li>
+        <li><a href="#products" class="hover:text-rose-400">All products</a></li>
+        <li><a href="#deals" class="hover:text-rose-400">Deals</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="font-bold mb-4 text-sm">Support</div>
+      <ul class="space-y-2 text-sm text-zinc-500">
+        <li><a href="#" class="hover:text-rose-400">Help center</a></li>
+        <li><a href="#" class="hover:text-rose-400">Track order</a></li>
+        <li><a href="#" class="hover:text-rose-400">Returns</a></li>
+        <li><a href="#" class="hover:text-rose-400">Warranty</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="font-bold mb-4 text-sm">Company</div>
+      <ul class="space-y-2 text-sm text-zinc-500">
+        <li><a href="#" class="hover:text-rose-400">About us</a></li>
+        <li><a href="#" class="hover:text-rose-400">Stores</a></li>
+        <li><a href="#" class="hover:text-rose-400">Careers</a></li>
+        <li><a href="admin.html" target="_blank" class="hover:text-rose-400">Admin panel</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/5 py-5 text-center text-xs text-zinc-600">© 2025 RANGS Premium Store. All rights reserved.</div>
+</footer>
+
+<!-- Cart Drawer -->
+<div id="cartDrawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-zinc-950 border-l border-white/10 z-50 translate-x-full transition-transform duration-300 flex flex-col">
+  <div class="flex items-center justify-between p-5 border-b border-white/10">
+    <div class="font-display font-bold text-lg">Shopping Cart</div>
+    <button onclick="toggleCart()" class="w-9 h-9 rounded-lg bg-white/5 hover:bg-white/10 transition flex items-center justify-center"><i class="fas fa-xmark"></i></button>
+  </div>
+  <div id="cartItems" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
+  <div class="border-t border-white/10 p-5">
+    <div class="flex justify-between mb-2 text-sm text-zinc-400"><span>Subtotal</span><span id="cartSubtotal">৳0</span></div>
+    <div class="flex justify-between mb-4 text-sm text-zinc-400"><span>Delivery</span><span class="text-emerald-400">Free</span></div>
+    <div class="flex justify-between mb-4 font-bold text-lg"><span>Total</span><span id="cartTotal">৳0</span></div>
+    <button onclick="checkout()" class="btn-primary text-white w-full py-3.5 rounded-xl font-semibold">Checkout</button>
+  </div>
+</div>
+<div id="cartOverlay" class="fixed inset-0 bg-black/60 z-40 hidden" onclick="toggleCart()"></div>
+
+<!-- Auth Modal -->
+<div id="authModal" class="fixed inset-0 z-50 modal-bg hidden flex items-center justify-center p-4">
+  <div class="bg-zinc-950 border border-white/10 rounded-2xl w-full max-w-md p-7">
+    <div class="flex justify-between items-center mb-6">
+      <div class="font-display font-bold text-xl">Account Access</div>
+      <button onclick="closeAuth()" class="w-9 h-9 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="flex gap-2 p-1 bg-white/5 rounded-xl mb-6">
+      <button onclick="switchAuthTab('login')" id="loginTabBtn" class="flex-1 py-2 rounded-lg text-sm font-semibold bg-rose-600 text-white">Sign in</button>
+      <button onclick="switchAuthTab('register')" id="registerTabBtn" class="flex-1 py-2 rounded-lg text-sm font-semibold text-zinc-400">Register</button>
+    </div>
+    <!-- Login Form -->
+    <form id="loginForm" onsubmit="doLogin(event)" class="space-y-3">
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Email</label>
+        <input type="email" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder-zinc-600" placeholder="your@email.com">
+      </div>
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Password</label>
+        <input type="password" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder-zinc-600" placeholder="••••••••">
+      </div>
+      <button class="btn-primary text-white w-full py-3.5 rounded-xl font-semibold mt-2">Sign in</button>
+      <div class="text-xs text-center text-zinc-500">Admin? <a href="admin.html" target="_blank" class="text-rose-400 hover:underline">Open admin panel</a></div>
+    </form>
+    <!-- Register Form -->
+    <form id="registerForm" onsubmit="doRegister(event)" class="space-y-3 hidden">
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Full name</label>
+        <input type="text" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder-zinc-600" placeholder="Your name">
+      </div>
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Email</label>
+        <input type="email" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder-zinc-600" placeholder="your@email.com">
+      </div>
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Password</label>
+        <input type="password" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder-zinc-600" placeholder="At least 6 characters" minlength="6">
+      </div>
+      <button class="btn-primary text-white w-full py-3.5 rounded-xl font-semibold mt-2">Create account</button>
+    </form>
+  </div>
+</div>
+
+<!-- Product Quick View Modal -->
+<div id="productModal" class="fixed inset-0 z-50 modal-bg hidden flex items-center justify-center p-4">
+  <div id="productModalContent" class="bg-zinc-950 border border-white/10 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"></div>
+</div>
+
+<!-- Toast container -->
+<div id="toastContainer" class="fixed top-5 right-5 z-[100] space-y-2"></div>
+
+<script>
+/* ============ DATA LAYER (shared with admin via localStorage) ============ */
+const DB = {
+  get(key, def){ try{ return JSON.parse(localStorage.getItem(key)) ?? def; }catch{ return def; } },
+  set(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+};
+
+// Default data seeding
+function seedData(){
+  if(!localStorage.getItem('rangs_products')){
+    const defaults = [
+      { id:'p1', name:'Samsung 55" Crystal UHD 4K Smart TV', category:'Television', price:78000, oldPrice:92000, image:'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=600&q=80', description:'Crystal UHD display with Quantum Dot, HDR 10+, Tizen OS, built-in streaming apps.', stock:14, featured:true, rating:4.7, createdAt:Date.now() },
+      { id:'p2', name:'LG 1.5 Ton Inverter AC', category:'Air Conditioner', price:68000, oldPrice:82000, image:'https://images.unsplash.com/photo-1631545806609-29ea0c1c4c8f?w=600&q=80', description:'Dual inverter compressor, energy efficient, low noise, WiFi control ready.', stock:8, featured:true, rating:4.6, createdAt:Date.now()-86400000 },
+      { id:'p3', name:'Whirlpool 290L Double Door Fridge', category:'Refrigerator', price:52000, oldPrice:60000, image:'https://images.unsplash.com/photo-1571175443880-7f22fa9c1d6c?w=600&q=80', description:'Frost-free, IntelliSense inverter, microblock technology, 10-year warranty.', stock:12, featured:true, rating:4.5, createdAt:Date.now()-172800000 },
+      { id:'p4', name:'Sony WH-1000XM5 Headphones', category:'Audio', price:38500, oldPrice:45000, image:'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80', description:'Industry-leading noise cancellation, 30hr battery, premium sound quality.', stock:25, featured:false, rating:4.9, createdAt:Date.now()-259200000 },
+      { id:'p5', name:'Samsung 7kg Front Load Washer', category:'Washing Machine', price:42500, oldPrice:49000, image:'https://images.unsplash.com/photo-1626806787461-102c1d5b3b5b?w=600&q=80', description:'EcoBubble technology, hygienic steam, AI control, energy efficient.', stock:7, featured:false, rating:4.4, createdAt:Date.now()-345600000 },
+      { id:'p6', name:'Panasonic 32" HD LED TV', category:'Television', price:21500, oldPrice:25500, image:'https://images.unsplash.com/photo-1593784991095-a2050694eb10?w=600&q=80', description:'HD resolution, USB HDMI ports, vivid display, ideal for bedroom.', stock:20, featured:false, rating:4.2, createdAt:Date.now()-432000000 },
+      { id:'p7', name:'JBL Flip 6 Portable Speaker', category:'Audio', price:13500, oldPrice:16000, image:'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&q=80', description:'Bold JBL sound, waterproof, 12 hour playtime, Bluetooth 5.1.', stock:30, featured:false, rating:4.8, createdAt:Date.now()-518400000 },
+      { id:'p8', name:'Philips Air Fryer HD9252', category:'Appliance', price:16500, oldPrice:19000, image:'https://images.unsplash.com/photo-1626806787461-102c1d5b3b5b?w=600&q=80', description:'Rapid air technology, 4.1L capacity, digital controls, easy clean.', stock:18, featured:false, rating:4.6, createdAt:Date.now()-604800000 }
+    ];
+    DB.set('rangs_products', defaults);
+  }
+  if(!localStorage.getItem('rangs_categories')){
+    DB.set('rangs_categories', [
+      { id:'c1', name:'Television', icon:'fa-tv', color:'text-rose-400' },
+      { id:'c2', name:'Refrigerator', icon:'fa-snowflake', color:'text-sky-400' },
+      { id:'c3', name:'Air Conditioner', icon:'fa-wind', color:'text-emerald-400' },
+      { id:'c4', name:'Washing Machine', icon:'fa-shirt', color:'text-violet-400' },
+      { id:'c5', name:'Audio', icon:'fa-headphones', color:'text-amber-400' },
+      { id:'c6', name:'Appliance', icon:'fa-blender', color:'text-pink-400' }
+    ]);
+  }
+  if(!localStorage.getItem('rangs_users')){
+    DB.set('rangs_users', [
+      { id:'u1', name:'Admin User', email:'admin@rangs.com', password:'admin123', role:'admin', createdAt:Date.now() }
+    ]);
+  }
+  if(!localStorage.getItem('rangs_orders')) DB.set('rangs_orders', []);
+  if(!localStorage.getItem('rangs_settings')){
+    DB.set('rangs_settings', { siteName:'RANGS', tagline:'PREMIUM STORE', currency:'৳' });
+  }
+}
+seedData();
+
+/* ============ STATE ============ */
+let cart = DB.get('rangs_cart', []);
+let session = DB.get('rangs_session', null);
+
+/* ============ HELPERS ============ */
+const fmt = n => '৳' + (n||0).toLocaleString('en-IN');
+function toast(msg, type='success'){
+  const colors = { success:'bg-emerald-500', error:'bg-rose-500', info:'bg-sky-500' };
+  const icons = { success:'fa-check', error:'fa-circle-exclamation', info:'fa-circle-info' };
+  const t = document.createElement('div');
+  t.className = `toast ${colors[type]} text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3 text-sm font-medium min-w-[250px]`;
+  t.innerHTML = `<i class="fas ${icons[type]}"></i> ${msg}`;
+  document.getElementById('toastContainer').appendChild(t);
+  setTimeout(()=>t.remove(), 3200);
+}
+function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ============ RENDER CATEGORIES ============ */
+function renderCategories(){
+  const cats = DB.get('rangs_categories', []);
+  const html = cats.map(c => `
+    <button onclick="filterByCategory('${escapeHtml(c.name)}')" class="card-hover bg-zinc-900/60 border border-white/10 rounded-2xl p-5 text-left group">
+      <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-3">
+        <i class="fas ${c.icon} ${c.color} text-xl"></i>
+      </div>
+      <div class="font-semibold text-sm">${escapeHtml(c.name)}</div>
+      <div class="text-xs text-zinc-500 mt-0.5">${countProductsInCategory(c.name)} items</div>
+    </button>
+  `).join('');
+  document.getElementById('categoryGrid').innerHTML = html;
+}
+function countProductsInCategory(cat){ return DB.get('rangs_products',[]).filter(p=>p.category===cat).length; }
+function filterByCategory(name){
+  document.getElementById('filterCategory').value = name;
+  document.getElementById('products').scrollIntoView({behavior:'smooth'});
+  renderProducts();
+}
+
+/* ============ RENDER PRODUCTS ============ */
+function renderProducts(){
+  const all = DB.get('rangs_products', []);
+  const search = document.getElementById('searchInput').value.toLowerCase().trim();
+  const cat = document.getElementById('filterCategory').value;
+  const sort = document.getElementById('sortProducts').value;
+  let list = [...all];
+  if(search) list = list.filter(p => p.name.toLowerCase().includes(search) || (p.description||'').toLowerCase().includes(search));
+  if(cat) list = list.filter(p => p.category === cat);
+  if(sort === 'price-low') list.sort((a,b)=>a.price-b.price);
+  else if(sort === 'price-high') list.sort((a,b)=>b.price-a.price);
+  else if(sort === 'name') list.sort((a,b)=>a.name.localeCompare(b.name));
+  else list.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+
+  const grid = document.getElementById('productsGrid');
+  const empty = document.getElementById('emptyState');
+  if(list.length === 0){ grid.innerHTML=''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  grid.innerHTML = list.map(p => productCard(p)).join('');
+  // Re-bind quick-view events
+  grid.querySelectorAll('[data-quick]').forEach(btn => btn.onclick = () => openProduct(btn.dataset.quick));
+}
+
+function productCard(p){
+  const discount = p.oldPrice ? Math.round(((p.oldPrice - p.price)/p.oldPrice)*100) : 0;
+  const badge = p.oldPrice ? `<span class="badge-sale text-white text-[10px] font-bold px-2 py-1 rounded-md">-${discount}%</span>` : (p.featured ? `<span class="badge-hot text-white text-[10px] font-bold px-2 py-1 rounded-md">HOT</span>` : `<span class="badge-new text-white text-[10px] font-bold px-2 py-1 rounded-md">NEW</span>`);
+  return `
+    <div class="card-hover bg-zinc-900/60 border border-white/10 rounded-2xl overflow-hidden flex flex-col">
+      <div class="relative aspect-square bg-zinc-950 overflow-hidden">
+        <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x400/1a1a24/e11d48?text=No+Image'">
+        <div class="absolute top-2 left-2">${badge}</div>
+        <button data-quick="${p.id}" class="absolute top-2 right-2 w-8 h-8 rounded-lg bg-black/50 backdrop-blur hover:bg-rose-600 transition flex items-center justify-center" title="Quick view">
+          <i class="fas fa-eye text-xs"></i>
+        </button>
+      </div>
+      <div class="p-3 sm:p-4 flex flex-col flex-1">
+        <div class="text-[10px] text-rose-400 font-medium mb-1 uppercase tracking-wider">${escapeHtml(p.category||'')}</div>
+        <h3 class="font-semibold text-sm leading-snug line-clamp-2 mb-1.5">${escapeHtml(p.name)}</h3>
+        <div class="flex items-center gap-1 text-xs text-amber-400 mb-2">
+          <i class="fas fa-star"></i> ${p.rating||'4.5'}
+          <span class="text-zinc-500 ml-1">(${p.stock||0} in stock)</span>
+        </div>
+        <div class="mt-auto flex items-end justify-between gap-2">
+          <div>
+            <div class="font-display font-bold text-base">${fmt(p.price)}</div>
+            ${p.oldPrice ? `<div class="text-xs text-zinc-500 line-through">${fmt(p.oldPrice)}</div>` : ''}
+          </div>
+          <button onclick="addToCart('${p.id}')" class="btn-primary text-white w-9 h-9 rounded-xl flex items-center justify-center" title="Add to cart">
+            <i class="fas fa-plus text-sm"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ============ FLASH DEALS ============ */
+function renderDeals(){
+  const deals = DB.get('rangs_products',[]).filter(p=>p.oldPrice).sort((a,b)=> ((b.oldPrice-b.price)/b.oldPrice) - ((a.oldPrice-a.price)/a.oldPrice)).slice(0,4);
+  document.getElementById('dealsGrid').innerHTML = deals.map(p=>{
+    const discount = Math.round(((p.oldPrice - p.price)/p.oldPrice)*100);
+    return `
+      <div class="bg-zinc-950/60 border border-white/10 rounded-2xl p-3 sm:p-4 hover:border-rose-500/40 transition group cursor-pointer" onclick="openProduct('${p.id}')">
+        <div class="aspect-square bg-zinc-900 rounded-xl mb-3 overflow-hidden">
+          <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}" class="w-full h-full object-cover group-hover:scale-105 transition" onerror="this.src='https://via.placeholder.com/400x400/1a1a24/e11d48?text=No+Image'">
+        </div>
+        <div class="badge-sale text-white text-[10px] font-bold px-2 py-0.5 rounded inline-block mb-2">-${discount}% OFF</div>
+        <div class="font-semibold text-sm line-clamp-1">${escapeHtml(p.name)}</div>
+        <div class="flex items-center gap-2 mt-1">
+          <div class="font-display font-bold">${fmt(p.price)}</div>
+          <div class="text-xs text-zinc-500 line-through">${fmt(p.oldPrice)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ============ PRODUCT MODAL ============ */
+function openProduct(id){
+  const p = DB.get('rangs_products',[]).find(x=>x.id===id);
+  if(!p) return;
+  const discount = p.oldPrice ? Math.round(((p.oldPrice-p.price)/p.oldPrice)*100) : 0;
+  document.getElementById('productModalContent').innerHTML = `
+    <div class="grid md:grid-cols-2 gap-0">
+      <div class="bg-zinc-950 aspect-square overflow-hidden rounded-l-2xl">
+        <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/600x600/1a1a24/e11d48?text=No+Image'">
+      </div>
+      <div class="p-7 relative">
+        <button onclick="closeProduct()" class="absolute top-4 right-4 w-9 h-9 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center"><i class="fas fa-xmark"></i></button>
+        <div class="text-xs text-rose-400 font-medium tracking-wider uppercase mb-2">${escapeHtml(p.category||'')}</div>
+        <h2 class="font-display font-extrabold text-2xl mb-3">${escapeHtml(p.name)}</h2>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="flex items-center gap-1 text-amber-400 text-sm"><i class="fas fa-star"></i> ${p.rating||'4.5'}</div>
+          <div class="text-zinc-500 text-sm">|</div>
+          <div class="text-sm ${p.stock>0?'text-emerald-400':'text-rose-400'}">${p.stock>0?`${p.stock} in stock`:'Out of stock'}</div>
+        </div>
+        <div class="flex items-baseline gap-3 mb-5">
+          <div class="font-display font-extrabold text-3xl">${fmt(p.price)}</div>
+          ${p.oldPrice?`<div class="text-zinc-500 line-through text-lg">${fmt(p.oldPrice)}</div><div class="badge-sale text-white text-xs font-bold px-2 py-1 rounded">-${discount}%</div>`:''}
+        </div>
+        <p class="text-zinc-400 text-sm leading-relaxed mb-6">${escapeHtml(p.description||'No description available.')}</p>
+        <div class="flex gap-2 mb-6">
+          <button onclick="addToCart('${p.id}'); closeProduct();" class="btn-primary text-white flex-1 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2"><i class="fas fa-bag-shopping"></i> Add to cart</button>
+          <button onclick="addToCart('${p.id}'); closeProduct(); toggleCart();" class="px-5 py-3.5 rounded-xl border border-white/15 hover:bg-white/5 font-semibold">Buy now</button>
+        </div>
+        <div class="grid grid-cols-3 gap-3 text-center text-xs">
+          <div class="bg-white/5 rounded-xl p-3"><i class="fas fa-shield-halved text-rose-400 mb-1"></i><div>Warranty</div></div>
+          <div class="bg-white/5 rounded-xl p-3"><i class="fas fa-truck-fast text-amber-400 mb-1"></i><div>Fast delivery</div></div>
+          <div class="bg-white/5 rounded-xl p-3"><i class="fas fa-rotate-left text-emerald-400 mb-1"></i><div>Easy return</div></div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('productModal').classList.remove('hidden');
+  document.getElementById('productModal').classList.add('flex');
+}
+function closeProduct(){
+  document.getElementById('productModal').classList.add('hidden');
+  document.getElementById('productModal').classList.remove('flex');
+}
+
+/* ============ CART ============ */
+function addToCart(id){
+  const p = DB.get('rangs_products',[]).find(x=>x.id===id);
+  if(!p) return;
+  const item = cart.find(i=>i.id===id);
+  if(item) item.qty++;
+  else cart.push({ id:p.id, name:p.name, price:p.price, image:p.image, qty:1 });
+  DB.set('rangs_cart', cart);
+  updateCartUI();
+  toast(`${p.name.slice(0,30)}... added to cart`);
+  const counter = document.getElementById('cartCount');
+  counter.classList.remove('cart-bump'); void counter.offsetWidth; counter.classList.add('cart-bump');
+}
+function removeFromCart(id){
+  cart = cart.filter(i=>i.id!==id);
+  DB.set('rangs_cart', cart);
+  updateCartUI();
+}
+function changeQty(id, delta){
+  const item = cart.find(i=>i.id===id);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty<=0) cart = cart.filter(i=>i.id!==id);
+  DB.set('rangs_cart', cart);
+  updateCartUI();
+}
+function updateCartUI(){
+  const count = cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartCount').textContent = count;
+  const items = document.getElementById('cartItems');
+  if(cart.length===0){ items.innerHTML = '<div class="text-center text-zinc-500 py-20"><i class="fas fa-bag-shopping text-5xl mb-3 text-zinc-700"></i><p>Your cart is empty</p></div>'; }
+  else{
+    items.innerHTML = cart.map(i=>`
+      <div class="flex gap-3 bg-white/5 rounded-xl p-3">
+        <img src="${escapeHtml(i.image)}" class="w-16 h-16 rounded-lg object-cover" onerror="this.src='https://via.placeholder.com/80/1a1a24/e11d48?text=No'">
+        <div class="flex-1 min-w-0">
+          <div class="text-sm font-semibold line-clamp-1">${escapeHtml(i.name)}</div>
+          <div class="text-xs text-zinc-500">${fmt(i.price)}</div>
+          <div class="flex items-center gap-2 mt-1">
+            <button onclick="changeQty('${i.id}',-1)" class="w-6 h-6 rounded bg-white/10 hover:bg-rose-600 text-xs">−</button>
+            <span class="text-sm w-6 text-center">${i.qty}</span>
+            <button onclick="changeQty('${i.id}',1)" class="w-6 h-6 rounded bg-white/10 hover:bg-rose-600 text-xs">+</button>
+            <button onclick="removeFromCart('${i.id}')" class="ml-auto text-rose-400 text-xs"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+        <div class="text-sm font-bold self-center">${fmt(i.price*i.qty)}</div>
+      </div>
+    `).join('');
+  }
+  const sub = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  document.getElementById('cartSubtotal').textContent = fmt(sub);
+  document.getElementById('cartTotal').textContent = fmt(sub);
+}
+function toggleCart(){
+  const drawer = document.getElementById('cartDrawer');
+  const overlay = document.getElementById('cartOverlay');
+  const isOpen = !drawer.classList.contains('translate-x-full');
+  if(isOpen){ drawer.classList.add('translate-x-full'); overlay.classList.add('hidden'); }
+  else { drawer.classList.remove('translate-x-full'); overlay.classList.remove('hidden'); }
+}
+function checkout(){
+  if(cart.length===0){ toast('Cart is empty','error'); return; }
+  if(!session){ toast('Please login first','info'); toggleCart(); openAuth(); return; }
+  const order = { id:'o'+Date.now(), userId:session.id, userEmail:session.email, items:cart, total:cart.reduce((s,i)=>s+i.price*i.qty,0), status:'pending', date:Date.now() };
+  const orders = DB.get('rangs_orders',[]); orders.push(order); DB.set('rangs_orders', orders);
+  cart = []; DB.set('rangs_cart', cart); updateCartUI(); toggleCart();
+  toast('Order placed successfully!');
+}
+
+/* ============ AUTH ============ */
+function openAuth(){ document.getElementById('authModal').classList.remove('hidden'); document.getElementById('authModal').classList.add('flex'); }
+function closeAuth(){ document.getElementById('authModal').classList.add('hidden'); document.getElementById('authModal').classList.remove('flex'); }
+function switchAuthTab(tab){
+  if(tab==='login'){
+    document.getElementById('loginForm').classList.remove('hidden');
+    document.getElementById('registerForm').classList.add('hidden');
+    document.getElementById('loginTabBtn').classList.add('bg-rose-600','text-white'); document.getElementById('loginTabBtn').classList.remove('text-zinc-400');
+    document.getElementById('registerTabBtn').classList.remove('bg-rose-600','text-white'); document.getElementById('registerTabBtn').classList.add('text-zinc-400');
+  } else {
+    document.getElementById('registerForm').classList.remove('hidden');
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('registerTabBtn').classList.add('bg-rose-600','text-white'); document.getElementById('registerTabBtn').classList.remove('text-zinc-400');
+    document.getElementById('loginTabBtn').classList.remove('bg-rose-600','text-white'); document.getElementById('loginTabBtn').classList.add('text-zinc-400');
+  }
+}
+function doLogin(e){
+  e.preventDefault();
+  const email = e.target[0].value;
+  const pass = e.target[1].value;
+  const users = DB.get('rangs_users',[]);
+  const user = users.find(u=>u.email===email && u.password===pass);
+  if(!user){ toast('Invalid credentials','error'); return; }
+  session = { id:user.id, name:user.name, email:user.email, role:user.role };
+  DB.set('rangs_session', session);
+  toast(`Welcome back, ${user.name.split(' ')[0]}!`);
+  closeAuth();
+}
+function doRegister(e){
+  e.preventDefault();
+  const name = e.target[0].value, email = e.target[1].value, pass = e.target[2].value;
+  const users = DB.get('rangs_users',[]);
+  if(users.find(u=>u.email===email)){ toast('Email already exists','error'); return; }
+  const user = { id:'u'+Date.now(), name, email, password:pass, role:'user', createdAt:Date.now() };
+  users.push(user); DB.set('rangs_users', users);
+  session = { id:user.id, name, email, role:'user' };
+  DB.set('rangs_session', session);
+  toast(`Account created. Welcome, ${name.split(' ')[0]}!`);
+  closeAuth();
+}
+function subscribeNewsletter(e){ e.preventDefault(); e.target.reset(); toast('Subscribed successfully!'); }
+
+/* ============ DEAL TIMER ============ */
+function tickTimer(){
+  let h = parseInt(document.getElementById('dealH').textContent);
+  let m = parseInt(document.getElementById('dealM').textContent);
+  let s = parseInt(document.getElementById('dealS').textContent);
+  s--; if(s<0){ s=59; m--; } if(m<0){ m=59; h--; } if(h<0){ h=23; }
+  document.getElementById('dealH').textContent = String(h).padStart(2,'0');
+  document.getElementById('dealM').textContent = String(m).padStart(2,'0');
+  document.getElementById('dealS').textContent = String(s).padStart(2,'0');
+}
+setInterval(tickTimer, 1000);
+
+/* ============ INIT ============ */
+function populateCategoryFilter(){
+  const cats = DB.get('rangs_categories',[]);
+  const sel = document.getElementById('filterCategory');
+  sel.innerHTML = '<option value="">All categories</option>' + cats.map(c=>`<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
+}
+document.getElementById('searchInput').addEventListener('input', renderProducts);
+document.getElementById('filterCategory').addEventListener('change', renderProducts);
+document.getElementById('sortProducts').addEventListener('change', renderProducts);
+
+populateCategoryFilter();
+renderCategories();
+renderDeals();
+renderProducts();
+updateCartUI();
+</script>
+</body>
+</html>
