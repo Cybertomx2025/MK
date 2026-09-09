@@ -9,15 +9,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   :root{
-    --bg:#0a0a0f;
-    --bg-2:#12121a;
-    --card:#1a1a24;
-    --border:#2a2a38;
-    --fg:#f4f4f5;
-    --muted:#9ca3af;
-    --accent:#e11d48;
-    --accent-2:#fb7185;
-    --gold:#f59e0b;
+    --bg:#0a0a0f; --bg-2:#12121a; --card:#1a1a24; --border:#2a2a38;
+    --fg:#f4f4f5; --muted:#9ca3af; --accent:#e11d48; --accent-2:#fb7185; --gold:#f59e0b;
   }
   *{box-sizing:border-box}
   body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--fg);overflow-x:hidden}
@@ -49,298 +42,483 @@
   .badge-hot{background:linear-gradient(135deg,#f59e0b,#d97706)}
   .cart-bump{animation:bump .3s ease}
   @keyframes bump{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
-  .skeleton{background:linear-gradient(90deg,#1a1a24 25%,#2a2a38 50%,#1a1a24 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
-  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  
+  /* Admin specific */
+  .sidebar-link{transition:all .2s}
+  .sidebar-link:hover{background:rgba(225,29,72,0.1)}
+  .sidebar-link.active{background:linear-gradient(90deg,rgba(225,29,72,0.2),transparent);border-left:3px solid #e11d48}
+  .row-hover:hover{background:rgba(255,255,255,0.03)}
+  .switch{position:relative;width:42px;height:24px;background:#2a2a38;border-radius:12px;cursor:pointer;transition:.3s;flex-shrink:0}
+  .switch.on{background:#10b981}
+  .switch::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.3s}
+  .switch.on::after{left:21px}
+  .file-drop{border:2px dashed #2a2a38;transition:all .3s}
+  .file-drop:hover, .file-drop.drag{border-color:#e11d48;background:rgba(225,29,72,0.05)}
+  .admin-grid-bg{background-image:linear-gradient(rgba(225,29,72,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(225,29,72,0.05) 1px,transparent 1px);background-size:40px 40px}
 </style>
 </head>
 <body class="min-h-screen">
 
-<!-- Announcement bar -->
-<div class="bg-gradient-to-r from-rose-700 via-rose-600 to-rose-700 text-white text-xs sm:text-sm overflow-hidden">
-  <div class="flex whitespace-nowrap py-2 marquee">
-    <span class="px-6">⚡ MEGA SALE — Up to 40% off on premium appliances</span>
-    <span class="px-6">•</span>
-    <span class="px-6">🚚 Free delivery inside Dhaka</span>
-    <span class="px-6">•</span>
-    <span class="px-6">🛡️ Official warranty on every product</span>
-    <span class="px-6">•</span>
-    <span class="px-6">💳 Easy EMI available</span>
-    <span class="px-6">•</span>
-    <span class="px-6">⚡ MEGA SALE — Up to 40% off on premium appliances</span>
-    <span class="px-6">•</span>
-    <span class="px-6">🚚 Free delivery inside Dhaka</span>
-    <span class="px-6">•</span>
-    <span class="px-6">🛡️ Official warranty on every product</span>
-    <span class="px-6">•</span>
-    <span class="px-6">💳 Easy EMI available</span>
+<!-- ==================== STOREFRONT VIEW ==================== -->
+<div id="storeView">
+  <!-- Announcement bar -->
+  <div class="bg-gradient-to-r from-rose-700 via-rose-600 to-rose-700 text-white text-xs sm:text-sm overflow-hidden">
+    <div class="flex whitespace-nowrap py-2 marquee">
+      <span class="px-6">⚡ MEGA SALE — Up to 40% off on premium appliances</span><span class="px-6">•</span>
+      <span class="px-6">🚚 Free delivery inside Dhaka</span><span class="px-6">•</span>
+      <span class="px-6">🛡️ Official warranty on every product</span><span class="px-6">•</span>
+      <span class="px-6">💳 Easy EMI available</span><span class="px-6">•</span>
+      <span class="px-6">⚡ MEGA SALE — Up to 40% off on premium appliances</span><span class="px-6">•</span>
+      <span class="px-6">🚚 Free delivery inside Dhaka</span><span class="px-6">•</span>
+      <span class="px-6">🛡️ Official warranty on every product</span><span class="px-6">•</span>
+      <span class="px-6">💳 Easy EMI available</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 glass border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
+      <a href="#" onclick="showStore()" class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-600 to-rose-900 flex items-center justify-center font-display font-extrabold text-white text-lg shadow-lg shadow-rose-900/50">R</div>
+        <div>
+          <div class="font-display font-extrabold text-xl leading-none">RANGS</div>
+          <div class="text-[10px] tracking-[0.3em] text-rose-400 mt-0.5">PREMIUM STORE</div>
+        </div>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-7 text-sm font-medium">
+        <a href="#home" class="hover:text-rose-400 transition">Home</a>
+        <a href="#categories" class="hover:text-rose-400 transition">Categories</a>
+        <a href="#products" class="hover:text-rose-400 transition">Products</a>
+        <a href="#deals" class="hover:text-rose-400 transition">Deals</a>
+        <a href="#contact" class="hover:text-rose-400 transition">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div class="hidden md:flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-3 py-2 w-64">
+          <i class="fas fa-search text-zinc-400 text-sm"></i>
+          <input id="searchInput" type="text" placeholder="Search products..." class="bg-transparent text-sm w-full border-none focus:ring-0 placeholder-zinc-500">
+        </div>
+        <button onclick="openAuth()" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition flex items-center justify-center">
+          <i class="fas fa-user text-zinc-300 text-sm"></i>
+        </button>
+        <button onclick="toggleCart()" class="relative w-10 h-10 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition flex items-center justify-center">
+          <i class="fas fa-shopping-bag text-zinc-300 text-sm"></i>
+          <span id="cartCount" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-rose-600 text-white text-[10px] font-bold flex items-center justify-center">0</span>
+        </button>
+        <button onclick="showAdmin()" class="hidden sm:flex w-10 h-10 rounded-xl bg-rose-600/20 border border-rose-600/40 hover:bg-rose-600/30 transition items-center justify-center" title="Admin Panel">
+          <i class="fas fa-shield-halved text-rose-400 text-sm"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="relative overflow-hidden grid-bg">
+    <div class="absolute inset-0 hero-img"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 relative">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="fade-in">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium mb-6">
+            <span class="w-2 h-2 rounded-full bg-rose-400 pulse-dot"></span> LIVE • New collection dropped
+          </div>
+          <h1 class="font-display font-extrabold text-5xl sm:text-6xl lg:text-7xl leading-[0.95] mb-6">
+            Premium <span class="gradient-text">Electronics</span><br>for modern living
+          </h1>
+          <p class="text-zinc-400 text-lg max-w-md mb-8">Discover a curated selection of televisions, refrigerators, air conditioners, and smart appliances — backed by official warranty.</p>
+          <div class="flex flex-wrap gap-3">
+            <a href="#products" class="btn-primary text-white px-7 py-3.5 rounded-xl font-semibold flex items-center gap-2">Shop now <i class="fas fa-arrow-right text-sm"></i></a>
+            <a href="#deals" class="px-7 py-3.5 rounded-xl font-semibold border border-white/15 hover:bg-white/5 transition flex items-center gap-2">View deals <i class="fas fa-fire text-amber-400 text-sm"></i></a>
+          </div>
+          <div class="flex items-center gap-8 mt-10 text-sm">
+            <div><div class="font-display font-bold text-2xl">12K+</div><div class="text-zinc-500 text-xs">Happy customers</div></div>
+            <div class="w-px h-10 bg-white/10"></div>
+            <div><div class="font-display font-bold text-2xl">500+</div><div class="text-zinc-500 text-xs">Products</div></div>
+            <div class="w-px h-10 bg-white/10"></div>
+            <div><div class="font-display font-bold text-2xl">4.9★</div><div class="text-zinc-500 text-xs">Avg rating</div></div>
+          </div>
+        </div>
+        <div class="relative hidden lg:block">
+          <div class="aspect-square rounded-3xl bg-gradient-to-br from-rose-600/30 via-rose-900/20 to-transparent border border-rose-500/30 p-8 glow">
+            <div class="grid grid-cols-2 gap-4 h-full">
+              <div class="bg-zinc-900/60 rounded-2xl border border-white/10 p-5 flex flex-col justify-between">
+                <i class="fas fa-tv text-4xl text-rose-400"></i>
+                <div><div class="text-xs text-zinc-500">Televisions</div><div class="font-bold">4K Smart TV</div></div>
+              </div>
+              <div class="bg-zinc-900/60 rounded-2xl border border-white/10 p-5 flex flex-col justify-between mt-8">
+                <i class="fas fa-snowflake text-4xl text-sky-400"></i>
+                <div><div class="text-xs text-zinc-500">Refrigerators</div><div class="font-bold">Inverter</div></div>
+              </div>
+              <div class="bg-zinc-900/60 rounded-2xl border border-white/10 p-5 flex flex-col justify-between">
+                <i class="fas fa-wind text-4xl text-emerald-400"></i>
+                <div><div class="text-xs text-zinc-500">AC</div><div class="font-bold">1.5 Ton</div></div>
+              </div>
+              <div class="bg-zinc-900/60 rounded-2xl border border-white/10 p-5 flex flex-col justify-between mt-8">
+                <i class="fas fa-blender text-4xl text-amber-400"></i>
+                <div><div class="text-xs text-zinc-500">Appliances</div><div class="font-bold">Smart</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="absolute -bottom-4 -left-4 bg-zinc-900 rounded-2xl border border-white/10 p-4 shadow-xl">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center"><i class="fas fa-truck-fast text-emerald-400"></i></div>
+              <div><div class="text-xs text-zinc-500">Delivery</div><div class="text-sm font-bold">Same day in Dhaka</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section id="categories" class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+    <div class="flex items-end justify-between mb-8">
+      <div>
+        <div class="text-rose-400 text-xs font-medium tracking-[0.3em] mb-2">CATEGORIES</div>
+        <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Shop by category</h2>
+      </div>
+      <a href="#products" class="hidden sm:flex items-center gap-2 text-sm text-zinc-400 hover:text-rose-400 transition">View all <i class="fas fa-arrow-right text-xs"></i></a>
+    </div>
+    <div id="categoryGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4"></div>
+  </section>
+
+  <!-- Flash Deals -->
+  <section id="deals" class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+    <div class="rounded-3xl bg-gradient-to-br from-rose-900/40 via-zinc-900 to-zinc-900 border border-rose-500/20 p-6 sm:p-10">
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="flex items-center gap-2 text-amber-400 text-xs font-medium tracking-[0.3em] mb-2"><i class="fas fa-bolt"></i> FLASH DEALS</div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Limited time offers</h2>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="text-zinc-400 text-sm">Ends in:</div>
+          <div class="flex gap-2">
+            <div class="bg-zinc-950 rounded-lg px-3 py-2 text-center min-w-[44px]"><div id="dealH" class="font-display font-bold text-xl">12</div><div class="text-[10px] text-zinc-500">HRS</div></div>
+            <div class="bg-zinc-950 rounded-lg px-3 py-2 text-center min-w-[44px]"><div id="dealM" class="font-display font-bold text-xl">45</div><div class="text-[10px] text-zinc-500">MIN</div></div>
+            <div class="bg-zinc-950 rounded-lg px-3 py-2 text-center min-w-[44px]"><div id="dealS" class="font-display font-bold text-xl">30</div><div class="text-[10px] text-zinc-500">SEC</div></div>
+          </div>
+        </div>
+      </div>
+      <div id="dealsGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-4"></div>
+    </div>
+  </section>
+
+  <!-- All Products -->
+  <section id="products" class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+    <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+      <div>
+        <div class="text-rose-400 text-xs font-medium tracking-[0.3em] mb-2">ALL PRODUCTS</div>
+        <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Explore the collection</h2>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <select id="filterCategory" class="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm">
+          <option value="">All categories</option>
+        </select>
+        <select id="sortProducts" class="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm">
+          <option value="newest">Newest</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="name">Name A-Z</option>
+        </select>
+      </div>
+    </div>
+    <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5"></div>
+    <div id="emptyState" class="hidden text-center py-20">
+      <i class="fas fa-box-open text-6xl text-zinc-700 mb-4"></i>
+      <h3 class="font-display font-bold text-xl mb-2">No products found</h3>
+      <p class="text-zinc-500">Try a different search or filter</p>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="border-y border-white/5 bg-zinc-950/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center"><i class="fas fa-shield-halved text-rose-400 text-xl"></i></div>
+        <div><div class="font-bold">Official Warranty</div><div class="text-xs text-zinc-500">On every product</div></div>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center"><i class="fas fa-truck-fast text-amber-400 text-xl"></i></div>
+        <div><div class="font-bold">Fast Delivery</div><div class="text-xs text-zinc-500">Inside Dhaka same-day</div></div>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center"><i class="fas fa-rotate-left text-emerald-400 text-xl"></i></div>
+        <div><div class="font-bold">Easy Returns</div><div class="text-xs text-zinc-500">7-day return policy</div></div>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center"><i class="fas fa-headset text-sky-400 text-xl"></i></div>
+        <div><div class="font-bold">24/7 Support</div><div class="text-xs text-zinc-500">Always here to help</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section id="contact" class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+    <div class="rounded-3xl bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 p-8 sm:p-14 text-center">
+      <h2 class="font-display font-extrabold text-3xl sm:text-4xl mb-3">Get exclusive deals first</h2>
+      <p class="text-zinc-400 max-w-xl mx-auto mb-7">Subscribe to our newsletter and receive early access to flash sales, new arrivals, and members-only discounts.</p>
+      <form onsubmit="subscribeNewsletter(event)" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+        <input type="email" required placeholder="your@email.com" class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder-zinc-500">
+        <button class="btn-primary text-white px-6 py-3 rounded-xl font-semibold">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/5 bg-zinc-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 lg:grid-cols-5 gap-8">
+      <div class="col-span-2">
+        <div class="flex items-center gap-2 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-600 to-rose-900 flex items-center justify-center font-display font-extrabold text-white text-lg">R</div>
+          <div><div class="font-display font-extrabold text-xl">RANGS</div><div class="text-[10px] tracking-[0.3em] text-rose-400">PREMIUM STORE</div></div>
+        </div>
+        <p class="text-zinc-500 text-sm max-w-xs mb-4">Your trusted destination for premium electronics and home appliances across Bangladesh.</p>
+        <div class="flex gap-3">
+          <a href="#" class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 hover:bg-rose-500/20 hover:border-rose-500/40 transition flex items-center justify-center"><i class="fab fa-facebook-f text-sm"></i></a>
+          <a href="#" class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 hover:bg-rose-500/20 hover:border-rose-500/40 transition flex items-center justify-center"><i class="fab fa-instagram text-sm"></i></a>
+          <a href="#" class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 hover:bg-rose-500/20 hover:border-rose-500/40 transition flex items-center justify-center"><i class="fab fa-youtube text-sm"></i></a>
+        </div>
+      </div>
+      <div>
+        <div class="font-bold mb-4 text-sm">Shop</div>
+        <ul class="space-y-2 text-sm text-zinc-500">
+          <li><a href="#categories" class="hover:text-rose-400">Categories</a></li>
+          <li><a href="#products" class="hover:text-rose-400">All products</a></li>
+          <li><a href="#deals" class="hover:text-rose-400">Deals</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-bold mb-4 text-sm">Support</div>
+        <ul class="space-y-2 text-sm text-zinc-500">
+          <li><a href="#" class="hover:text-rose-400">Help center</a></li>
+          <li><a href="#" class="hover:text-rose-400">Track order</a></li>
+          <li><a href="#" class="hover:text-rose-400">Returns</a></li>
+          <li><a href="#" class="hover:text-rose-400">Warranty</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-bold mb-4 text-sm">Company</div>
+        <ul class="space-y-2 text-sm text-zinc-500">
+          <li><a href="#" class="hover:text-rose-400">About us</a></li>
+          <li><a href="#" class="hover:text-rose-400">Stores</a></li>
+          <li><a href="#" class="hover:text-rose-400">Careers</a></li>
+          <li><a href="#" onclick="showAdmin()" class="hover:text-rose-400">Admin panel</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/5 py-5 text-center text-xs text-zinc-600">© 2025 RANGS Premium Store. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- ==================== ADMIN VIEW ==================== -->
+<div id="adminView" class="hidden min-h-screen">
+  <!-- Login Screen -->
+  <div id="adminLoginScreen" class="min-h-screen flex items-center justify-center p-4 admin-grid-bg relative">
+    <div class="absolute inset-0 bg-gradient-to-br from-rose-900/10 via-transparent to-rose-900/10"></div>
+    <div class="bg-zinc-950 border border-white/10 rounded-2xl w-full max-w-md p-8 relative z-10 shadow-2xl">
+      <div class="flex flex-col items-center mb-7">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-rose-600 to-rose-900 flex items-center justify-center font-display font-extrabold text-white text-2xl shadow-lg shadow-rose-900/50 mb-3">R</div>
+        <h1 class="font-display font-extrabold text-2xl">Admin Panel</h1>
+        <p class="text-zinc-500 text-sm mt-1">Sign in to manage your store</p>
+      </div>
+      <form onsubmit="adminLogin(event)" class="space-y-4">
+        <div>
+          <label class="text-xs text-zinc-400 mb-1 block">Email</label>
+          <input id="adminEmail" type="email" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3" placeholder="admin@rangs.com" value="admin@rangs.com">
+        </div>
+        <div>
+          <label class="text-xs text-zinc-400 mb-1 block">Password</label>
+          <input id="adminPass" type="password" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3" placeholder="••••••••" value="admin123">
+        </div>
+        <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 text-xs text-amber-300">
+          <i class="fas fa-circle-info mr-1"></i> Demo: admin@rangs.com / admin123
+        </div>
+        <button class="btn-primary text-white w-full py-3.5 rounded-xl font-semibold">Sign in to dashboard</button>
+        <div class="text-center text-xs text-zinc-500"><a href="#" onclick="showStore()" class="hover:text-rose-400">← Back to website</a></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard Layout -->
+  <div id="adminDashboard" class="hidden">
+    <aside class="fixed left-0 top-0 h-full w-64 bg-zinc-950 border-r border-white/10 z-40 flex flex-col">
+      <div class="p-5 border-b border-white/10 flex items-center gap-2">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-rose-600 to-rose-900 flex items-center justify-center font-display font-extrabold text-white">R</div>
+        <div>
+          <div class="font-display font-bold text-sm">RANGS Admin</div>
+          <div class="text-[10px] text-rose-400 tracking-widest">CONTROL PANEL</div>
+        </div>
+      </div>
+      <nav class="flex-1 p-3 space-y-1 text-sm overflow-y-auto">
+        <button onclick="adminNav('dashboard')" data-asection="dashboard" class="sidebar-link active w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-3"><i class="fas fa-gauge-high w-5 text-rose-400"></i> Dashboard</button>
+        <button onclick="adminNav('products')" data-asection="products" class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-3"><i class="fas fa-box w-5 text-sky-400"></i> Products</button>
+        <button onclick="adminNav('categories')" data-asection="categories" class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-3"><i class="fas fa-tags w-5 text-amber-400"></i> Categories</button>
+        <button onclick="adminNav('orders')" data-asection="orders" class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-3"><i class="fas fa-receipt w-5 text-emerald-400"></i> Orders</button>
+        <button onclick="adminNav('users')" data-asection="users" class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-3"><i class="fas fa-users w-5 text-violet-400"></i> Users</button>
+        <button onclick="adminNav('settings')" data-asection="settings" class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-3"><i class="fas fa-gear w-5 text-pink-400"></i> Settings</button>
+      </nav>
+      <div class="p-3 border-t border-white/10">
+        <button onclick="showStore()" class="w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-3 text-sm hover:bg-white/5"><i class="fas fa-up-right-from-square w-5 text-zinc-400"></i> View website</button>
+        <button onclick="adminLogout()" class="w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-3 text-sm hover:bg-rose-500/10 text-rose-400"><i class="fas fa-right-from-bracket w-5"></i> Logout</button>
+      </div>
+    </aside>
+
+    <main class="ml-64 min-h-screen p-6 sm:p-8">
+      <header class="flex items-center justify-between mb-8">
+        <div>
+          <h1 id="pageTitle" class="font-display font-extrabold text-2xl">Dashboard</h1>
+          <div class="text-zinc-500 text-sm" id="pageSubtitle">Welcome back, manage your store</div>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="openProductModal()" class="btn-primary text-white px-4 py-2.5 rounded-xl font-semibold text-sm flex items-center gap-2"><i class="fas fa-plus"></i> Add product</button>
+          <div class="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-3 py-2">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-rose-600 to-rose-900 flex items-center justify-center text-sm font-bold">A</div>
+            <div class="text-sm">
+              <div class="font-semibold leading-none" id="adminName">Admin</div>
+              <div class="text-[10px] text-zinc-500 mt-0.5">Administrator</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Section -->
+      <section id="asection-dashboard" class="space-y-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-zinc-900/60 border border-white/10 rounded-2xl p-5">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center"><i class="fas fa-box text-rose-400"></i></div>
+              <div class="text-xs text-emerald-400"><i class="fas fa-arrow-up"></i> 12%</div>
+            </div>
+            <div class="font-display font-bold text-2xl" id="statProducts">0</div>
+            <div class="text-xs text-zinc-500">Total products</div>
+          </div>
+          <div class="bg-zinc-900/60 border border-white/10 rounded-2xl p-5">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center"><i class="fas fa-receipt text-emerald-400"></i></div>
+              <div class="text-xs text-emerald-400"><i class="fas fa-arrow-up"></i> 8%</div>
+            </div>
+            <div class="font-display font-bold text-2xl" id="statOrders">0</div>
+            <div class="text-xs text-zinc-500">Total orders</div>
+          </div>
+          <div class="bg-zinc-900/60 border border-white/10 rounded-2xl p-5">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center"><i class="fas fa-users text-sky-400"></i></div>
+              <div class="text-xs text-emerald-400"><i class="fas fa-arrow-up"></i> 5%</div>
+            </div>
+            <div class="font-display font-bold text-2xl" id="statUsers">0</div>
+            <div class="text-xs text-zinc-500">Registered users</div>
+          </div>
+          <div class="bg-zinc-900/60 border border-white/10 rounded-2xl p-5">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center"><i class="fas fa-tags text-amber-400"></i></div>
+              <div class="text-xs text-zinc-500">Categories</div>
+            </div>
+            <div class="font-display font-bold text-2xl" id="statCategories">0</div>
+            <div class="text-xs text-zinc-500">Active categories</div>
+          </div>
+        </div>
+        <div class="grid lg:grid-cols-3 gap-4">
+          <div class="lg:col-span-2 bg-zinc-900/60 border border-white/10 rounded-2xl p-5">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-display font-bold">Recent products</h3>
+              <button onclick="adminNav('products')" class="text-xs text-rose-400 hover:underline">View all →</button>
+            </div>
+            <div id="recentProducts" class="space-y-2"></div>
+          </div>
+          <div class="bg-zinc-900/60 border border-white/10 rounded-2xl p-5">
+            <h3 class="font-display font-bold mb-4">Recent orders</h3>
+            <div id="recentOrders" class="space-y-3"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Products Section -->
+      <section id="asection-products" class="hidden space-y-4">
+        <div class="bg-zinc-900/60 border border-white/10 rounded-2xl p-5">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <div class="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-3 py-2 flex-1 min-w-[200px]">
+              <i class="fas fa-search text-zinc-400 text-sm"></i>
+              <input id="productSearch" oninput="renderProductsTable()" type="text" placeholder="Search products..." class="bg-transparent text-sm w-full">
+            </div>
+            <select id="productCatFilter" onchange="renderProductsTable()" class="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm"></select>
+            <button onclick="openProductModal()" class="btn-primary text-white px-4 py-2 rounded-xl font-semibold text-sm flex items-center gap-2"><i class="fas fa-plus"></i> Add new</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="text-left text-xs text-zinc-500 uppercase tracking-wider border-b border-white/10">
+                  <th class="py-3 px-3">Product</th><th class="py-3 px-3">Category</th>
+                  <th class="py-3 px-3">Price</th><th class="py-3 px-3">Stock</th>
+                  <th class="py-3 px-3">Featured</th><th class="py-3 px-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="productsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Categories Section -->
+      <section id="asection-categories" class="hidden space-y-4">
+        <div class="bg-zinc-900/60 border border-white/10 rounded-2xl p-5">
+          <div class="flex justify-between mb-4">
+            <h3 class="font-display font-bold">All categories</h3>
+            <button onclick="openCategoryModal()" class="btn-primary text-white px-4 py-2 rounded-xl font-semibold text-sm flex items-center gap-2"><i class="fas fa-plus"></i> Add category</button>
+          </div>
+          <div id="categoriesList" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+        </div>
+      </section>
+
+      <!-- Orders Section -->
+      <section id="asection-orders" class="hidden space-y-4">
+        <div class="bg-zinc-900/60 border border-white/10 rounded-2xl p-5">
+          <h3 class="font-display font-bold mb-4">All orders</h3>
+          <div id="ordersList" class="space-y-3"></div>
+        </div>
+      </section>
+
+      <!-- Users Section -->
+      <section id="asection-users" class="hidden space-y-4">
+        <div class="bg-zinc-900/60 border border-white/10 rounded-2xl p-5">
+          <div class="flex justify-between mb-4">
+            <h3 class="font-display font-bold">All users</h3>
+            <button onclick="openUserModal()" class="btn-primary text-white px-4 py-2 rounded-xl font-semibold text-sm flex items-center gap-2"><i class="fas fa-plus"></i> Add user</button>
+          </div>
+          <div id="usersList" class="space-y-2"></div>
+        </div>
+      </section>
+
+      <!-- Settings Section -->
+      <section id="asection-settings" class="hidden space-y-4">
+        <div class="bg-zinc-900/60 border border-white/10 rounded-2xl p-5 max-w-2xl">
+          <h3 class="font-display font-bold mb-4">Store settings</h3>
+          <form onsubmit="saveSettings(event)" class="space-y-4">
+            <div>
+              <label class="text-xs text-zinc-400 mb-1 block">Site name</label>
+              <input id="setName" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5">
+            </div>
+            <div>
+              <label class="text-xs text-zinc-400 mb-1 block">Tagline</label>
+              <input id="setTagline" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5">
+            </div>
+            <div>
+              <label class="text-xs text-zinc-400 mb-1 block">Currency symbol</label>
+              <input id="setCurrency" type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5">
+            </div>
+            <button class="btn-primary text-white px-5 py-2.5 rounded-xl font-semibold">Save settings</button>
+          </form>
+        </div>
+        <div class="bg-zinc-900/60 border border-rose-500/30 rounded-2xl p-5 max-w-2xl">
+          <h3 class="font-display font-bold mb-2 text-rose-400">Danger zone</h3>
+          <p class="text-zinc-500 text-sm mb-4">This will permanently delete all products, categories, users and orders. Cannot be undone.</p>
+          <button onclick="resetAllData()" class="bg-rose-600 hover:bg-rose-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm">Reset all data</button>
+        </div>
+      </section>
+    </main>
   </div>
 </div>
 
-<!-- Header -->
-<header class="sticky top-0 z-40 glass border-b border-white/5">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
-    <a href="#" class="flex items-center gap-2">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-600 to-rose-900 flex items-center justify-center font-display font-extrabold text-white text-lg shadow-lg shadow-rose-900/50">R</div>
-      <div>
-        <div class="font-display font-extrabold text-xl leading-none">RANGS</div>
-        <div class="text-[10px] tracking-[0.3em] text-rose-400 mt-0.5">PREMIUM STORE</div>
-      </div>
-    </a>
-
-    <nav class="hidden lg:flex items-center gap-7 text-sm font-medium">
-      <a href="#home" class="hover:text-rose-400 transition">Home</a>
-      <a href="#categories" class="hover:text-rose-400 transition">Categories</a>
-      <a href="#products" class="hover:text-rose-400 transition">Products</a>
-      <a href="#deals" class="hover:text-rose-400 transition">Deals</a>
-      <a href="#contact" class="hover:text-rose-400 transition">Contact</a>
-    </nav>
-
-    <div class="flex items-center gap-2 sm:gap-3">
-      <div class="hidden md:flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-3 py-2 w-64">
-        <i class="fas fa-search text-zinc-400 text-sm"></i>
-        <input id="searchInput" type="text" placeholder="Search products..." class="bg-transparent text-sm w-full border-none focus:ring-0 placeholder-zinc-500">
-      </div>
-      <button onclick="openAuth()" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition flex items-center justify-center">
-        <i class="fas fa-user text-zinc-300 text-sm"></i>
-      </button>
-      <button onclick="toggleCart()" class="relative w-10 h-10 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition flex items-center justify-center">
-        <i class="fas fa-shopping-bag text-zinc-300 text-sm"></i>
-        <span id="cartCount" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-rose-600 text-white text-[10px] font-bold flex items-center justify-center">0</span>
-      </button>
-      <a href="admin.html" target="_blank" class="hidden sm:flex w-10 h-10 rounded-xl bg-rose-600/20 border border-rose-600/40 hover:bg-rose-600/30 transition items-center justify-center" title="Admin Panel">
-        <i class="fas fa-shield-halved text-rose-400 text-sm"></i>
-      </a>
-    </div>
-  </div>
-</header>
-
-<!-- Hero -->
-<section id="home" class="relative overflow-hidden grid-bg">
-  <div class="absolute inset-0 hero-img"></div>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 relative">
-    <div class="grid lg:grid-cols-2 gap-12 items-center">
-      <div class="fade-in">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium mb-6">
-          <span class="w-2 h-2 rounded-full bg-rose-400 pulse-dot"></span>
-          LIVE • New collection dropped
-        </div>
-        <h1 class="font-display font-extrabold text-5xl sm:text-6xl lg:text-7xl leading-[0.95] mb-6">
-          Premium <span class="gradient-text">Electronics</span><br>for modern living
-        </h1>
-        <p class="text-zinc-400 text-lg max-w-md mb-8">Discover a curated selection of televisions, refrigerators, air conditioners, and smart appliances — backed by official warranty.</p>
-        <div class="flex flex-wrap gap-3">
-          <a href="#products" class="btn-primary text-white px-7 py-3.5 rounded-xl font-semibold flex items-center gap-2">
-            Shop now <i class="fas fa-arrow-right text-sm"></i>
-          </a>
-          <a href="#deals" class="px-7 py-3.5 rounded-xl font-semibold border border-white/15 hover:bg-white/5 transition flex items-center gap-2">
-            View deals <i class="fas fa-fire text-amber-400 text-sm"></i>
-          </a>
-        </div>
-        <div class="flex items-center gap-8 mt-10 text-sm">
-          <div><div class="font-display font-bold text-2xl">12K+</div><div class="text-zinc-500 text-xs">Happy customers</div></div>
-          <div class="w-px h-10 bg-white/10"></div>
-          <div><div class="font-display font-bold text-2xl">500+</div><div class="text-zinc-500 text-xs">Products</div></div>
-          <div class="w-px h-10 bg-white/10"></div>
-          <div><div class="font-display font-bold text-2xl">4.9★</div><div class="text-zinc-500 text-xs">Avg rating</div></div>
-        </div>
-      </div>
-      <div class="relative hidden lg:block">
-        <div class="aspect-square rounded-3xl bg-gradient-to-br from-rose-600/30 via-rose-900/20 to-transparent border border-rose-500/30 p-8 glow">
-          <div class="grid grid-cols-2 gap-4 h-full">
-            <div class="bg-zinc-900/60 rounded-2xl border border-white/10 p-5 flex flex-col justify-between">
-              <i class="fas fa-tv text-4xl text-rose-400"></i>
-              <div>
-                <div class="text-xs text-zinc-500">Televisions</div>
-                <div class="font-bold">4K Smart TV</div>
-              </div>
-            </div>
-            <div class="bg-zinc-900/60 rounded-2xl border border-white/10 p-5 flex flex-col justify-between mt-8">
-              <i class="fas fa-snowflake text-4xl text-sky-400"></i>
-              <div>
-                <div class="text-xs text-zinc-500">Refrigerators</div>
-                <div class="font-bold">Inverter</div>
-              </div>
-            </div>
-            <div class="bg-zinc-900/60 rounded-2xl border border-white/10 p-5 flex flex-col justify-between">
-              <i class="fas fa-wind text-4xl text-emerald-400"></i>
-              <div>
-                <div class="text-xs text-zinc-500">AC</div>
-                <div class="font-bold">1.5 Ton</div>
-              </div>
-            </div>
-            <div class="bg-zinc-900/60 rounded-2xl border border-white/10 p-5 flex flex-col justify-between mt-8">
-              <i class="fas fa-blender text-4xl text-amber-400"></i>
-              <div>
-                <div class="text-xs text-zinc-500">Appliances</div>
-                <div class="font-bold">Smart</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="absolute -bottom-4 -left-4 bg-zinc-900 rounded-2xl border border-white/10 p-4 shadow-xl">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center"><i class="fas fa-truck-fast text-emerald-400"></i></div>
-            <div>
-              <div class="text-xs text-zinc-500">Delivery</div>
-              <div class="text-sm font-bold">Same day in Dhaka</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Categories -->
-<section id="categories" class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
-  <div class="flex items-end justify-between mb-8">
-    <div>
-      <div class="text-rose-400 text-xs font-medium tracking-[0.3em] mb-2">CATEGORIES</div>
-      <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Shop by category</h2>
-    </div>
-    <a href="#products" class="hidden sm:flex items-center gap-2 text-sm text-zinc-400 hover:text-rose-400 transition">View all <i class="fas fa-arrow-right text-xs"></i></a>
-  </div>
-  <div id="categoryGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4"></div>
-</section>
-
-<!-- Flash Deals -->
-<section id="deals" class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-  <div class="rounded-3xl bg-gradient-to-br from-rose-900/40 via-zinc-900 to-zinc-900 border border-rose-500/20 p-6 sm:p-10">
-    <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
-      <div>
-        <div class="flex items-center gap-2 text-amber-400 text-xs font-medium tracking-[0.3em] mb-2">
-          <i class="fas fa-bolt"></i> FLASH DEALS
-        </div>
-        <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Limited time offers</h2>
-      </div>
-      <div class="flex items-center gap-3">
-        <div class="text-zinc-400 text-sm">Ends in:</div>
-        <div class="flex gap-2">
-          <div class="bg-zinc-950 rounded-lg px-3 py-2 text-center min-w-[44px]">
-            <div id="dealH" class="font-display font-bold text-xl">12</div>
-            <div class="text-[10px] text-zinc-500">HRS</div>
-          </div>
-          <div class="bg-zinc-950 rounded-lg px-3 py-2 text-center min-w-[44px]">
-            <div id="dealM" class="font-display font-bold text-xl">45</div>
-            <div class="text-[10px] text-zinc-500">MIN</div>
-          </div>
-          <div class="bg-zinc-950 rounded-lg px-3 py-2 text-center min-w-[44px]">
-            <div id="dealS" class="font-display font-bold text-xl">30</div>
-            <div class="text-[10px] text-zinc-500">SEC</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="dealsGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-4"></div>
-  </div>
-</section>
-
-<!-- All Products -->
-<section id="products" class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
-  <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
-    <div>
-      <div class="text-rose-400 text-xs font-medium tracking-[0.3em] mb-2">ALL PRODUCTS</div>
-      <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Explore the collection</h2>
-    </div>
-    <div class="flex flex-wrap gap-2">
-      <select id="filterCategory" class="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm">
-        <option value="">All categories</option>
-      </select>
-      <select id="sortProducts" class="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm">
-        <option value="newest">Newest</option>
-        <option value="price-low">Price: Low to High</option>
-        <option value="price-high">Price: High to Low</option>
-        <option value="name">Name A-Z</option>
-      </select>
-    </div>
-  </div>
-  <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5"></div>
-  <div id="emptyState" class="hidden text-center py-20">
-    <i class="fas fa-box-open text-6xl text-zinc-700 mb-4"></i>
-    <h3 class="font-display font-bold text-xl mb-2">No products found</h3>
-    <p class="text-zinc-500">Try a different search or filter</p>
-  </div>
-</section>
-
-<!-- Features -->
-<section class="border-y border-white/5 bg-zinc-950/50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 lg:grid-cols-4 gap-8">
-    <div class="flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center"><i class="fas fa-shield-halved text-rose-400 text-xl"></i></div>
-      <div><div class="font-bold">Official Warranty</div><div class="text-xs text-zinc-500">On every product</div></div>
-    </div>
-    <div class="flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center"><i class="fas fa-truck-fast text-amber-400 text-xl"></i></div>
-      <div><div class="font-bold">Fast Delivery</div><div class="text-xs text-zinc-500">Inside Dhaka same-day</div></div>
-    </div>
-    <div class="flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center"><i class="fas fa-rotate-left text-emerald-400 text-xl"></i></div>
-      <div><div class="font-bold">Easy Returns</div><div class="text-xs text-zinc-500">7-day return policy</div></div>
-    </div>
-    <div class="flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center"><i class="fas fa-headset text-sky-400 text-xl"></i></div>
-      <div><div class="font-bold">24/7 Support</div><div class="text-xs text-zinc-500">Always here to help</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- Newsletter -->
-<section id="contact" class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
-  <div class="rounded-3xl bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 p-8 sm:p-14 text-center">
-    <h2 class="font-display font-extrabold text-3xl sm:text-4xl mb-3">Get exclusive deals first</h2>
-    <p class="text-zinc-400 max-w-xl mx-auto mb-7">Subscribe to our newsletter and receive early access to flash sales, new arrivals, and members-only discounts.</p>
-    <form onsubmit="subscribeNewsletter(event)" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-      <input type="email" required placeholder="your@email.com" class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder-zinc-500">
-      <button class="btn-primary text-white px-6 py-3 rounded-xl font-semibold">Subscribe</button>
-    </form>
-  </div>
-</section>
-
-<!-- Footer -->
-<footer class="border-t border-white/5 bg-zinc-950">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 lg:grid-cols-5 gap-8">
-    <div class="col-span-2">
-      <div class="flex items-center gap-2 mb-4">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-600 to-rose-900 flex items-center justify-center font-display font-extrabold text-white text-lg">R</div>
-        <div><div class="font-display font-extrabold text-xl">RANGS</div><div class="text-[10px] tracking-[0.3em] text-rose-400">PREMIUM STORE</div></div>
-      </div>
-      <p class="text-zinc-500 text-sm max-w-xs mb-4">Your trusted destination for premium electronics and home appliances across Bangladesh.</p>
-      <div class="flex gap-3">
-        <a href="#" class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 hover:bg-rose-500/20 hover:border-rose-500/40 transition flex items-center justify-center"><i class="fab fa-facebook-f text-sm"></i></a>
-        <a href="#" class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 hover:bg-rose-500/20 hover:border-rose-500/40 transition flex items-center justify-center"><i class="fab fa-instagram text-sm"></i></a>
-        <a href="#" class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 hover:bg-rose-500/20 hover:border-rose-500/40 transition flex items-center justify-center"><i class="fab fa-youtube text-sm"></i></a>
-        <a href="#" class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 hover:bg-rose-500/20 hover:border-rose-500/40 transition flex items-center justify-center"><i class="fab fa-x-twitter text-sm"></i></a>
-      </div>
-    </div>
-    <div>
-      <div class="font-bold mb-4 text-sm">Shop</div>
-      <ul class="space-y-2 text-sm text-zinc-500">
-        <li><a href="#categories" class="hover:text-rose-400">Categories</a></li>
-        <li><a href="#products" class="hover:text-rose-400">All products</a></li>
-        <li><a href="#deals" class="hover:text-rose-400">Deals</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="font-bold mb-4 text-sm">Support</div>
-      <ul class="space-y-2 text-sm text-zinc-500">
-        <li><a href="#" class="hover:text-rose-400">Help center</a></li>
-        <li><a href="#" class="hover:text-rose-400">Track order</a></li>
-        <li><a href="#" class="hover:text-rose-400">Returns</a></li>
-        <li><a href="#" class="hover:text-rose-400">Warranty</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="font-bold mb-4 text-sm">Company</div>
-      <ul class="space-y-2 text-sm text-zinc-500">
-        <li><a href="#" class="hover:text-rose-400">About us</a></li>
-        <li><a href="#" class="hover:text-rose-400">Stores</a></li>
-        <li><a href="#" class="hover:text-rose-400">Careers</a></li>
-        <li><a href="admin.html" target="_blank" class="hover:text-rose-400">Admin panel</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="border-t border-white/5 py-5 text-center text-xs text-zinc-600">© 2025 RANGS Premium Store. All rights reserved.</div>
-</footer>
+<!-- ==================== MODALS & SHARED COMPONENTS ==================== -->
 
 <!-- Cart Drawer -->
 <div id="cartDrawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-zinc-950 border-l border-white/10 z-50 translate-x-full transition-transform duration-300 flex flex-col">
@@ -369,7 +547,6 @@
       <button onclick="switchAuthTab('login')" id="loginTabBtn" class="flex-1 py-2 rounded-lg text-sm font-semibold bg-rose-600 text-white">Sign in</button>
       <button onclick="switchAuthTab('register')" id="registerTabBtn" class="flex-1 py-2 rounded-lg text-sm font-semibold text-zinc-400">Register</button>
     </div>
-    <!-- Login Form -->
     <form id="loginForm" onsubmit="doLogin(event)" class="space-y-3">
       <div>
         <label class="text-xs text-zinc-400 mb-1 block">Email</label>
@@ -380,9 +557,8 @@
         <input type="password" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder-zinc-600" placeholder="••••••••">
       </div>
       <button class="btn-primary text-white w-full py-3.5 rounded-xl font-semibold mt-2">Sign in</button>
-      <div class="text-xs text-center text-zinc-500">Admin? <a href="admin.html" target="_blank" class="text-rose-400 hover:underline">Open admin panel</a></div>
+      <div class="text-xs text-center text-zinc-500">Admin? <a href="#" onclick="showAdmin()" class="text-rose-400 hover:underline">Open admin panel</a></div>
     </form>
-    <!-- Register Form -->
     <form id="registerForm" onsubmit="doRegister(event)" class="space-y-3 hidden">
       <div>
         <label class="text-xs text-zinc-400 mb-1 block">Full name</label>
@@ -401,25 +577,170 @@
   </div>
 </div>
 
-<!-- Product Quick View Modal -->
-<div id="productModal" class="fixed inset-0 z-50 modal-bg hidden flex items-center justify-center p-4">
-  <div id="productModalContent" class="bg-zinc-950 border border-white/10 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"></div>
+<!-- Store Product Quick View Modal -->
+<div id="storeProductModal" class="fixed inset-0 z-50 modal-bg hidden items-center justify-center p-4">
+  <div id="storeProductModalContent" class="bg-zinc-950 border border-white/10 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"></div>
 </div>
 
-<!-- Toast container -->
+<!-- Admin Product Modal -->
+<div id="adminProductModal" class="fixed inset-0 z-50 modal-bg hidden items-center justify-center p-4">
+  <div class="bg-zinc-950 border border-white/10 rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto">
+    <div class="p-5 border-b border-white/10 flex justify-between items-center sticky top-0 bg-zinc-950 z-10">
+      <h3 id="adminProductModalTitle" class="font-display font-bold text-lg">Add new product</h3>
+      <button onclick="closeProductModal()" class="w-9 h-9 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center"><i class="fas fa-xmark"></i></button>
+    </div>
+    <form id="productForm" onsubmit="saveProduct(event)" class="p-5 space-y-4">
+      <input type="hidden" id="prodId">
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Product name *</label>
+        <input id="prodName" type="text" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5" placeholder="e.g. Samsung 55&quot; 4K Smart TV">
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs text-zinc-400 mb-1 block">Category *</label>
+          <select id="prodCategory" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5"></select>
+        </div>
+        <div>
+          <label class="text-xs text-zinc-400 mb-1 block">Stock</label>
+          <input id="prodStock" type="number" min="0" value="0" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5">
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs text-zinc-400 mb-1 block">Price (৳) *</label>
+          <input id="prodPrice" type="number" min="0" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5" placeholder="78000">
+        </div>
+        <div>
+          <label class="text-xs text-zinc-400 mb-1 block">Old price (optional)</label>
+          <input id="prodOldPrice" type="number" min="0" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5" placeholder="92000">
+        </div>
+      </div>
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Description</label>
+        <textarea id="prodDescription" rows="3" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 resize-none" placeholder="Brief product description..."></textarea>
+      </div>
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Image</label>
+        <div class="flex gap-3">
+          <div class="flex-1">
+            <input id="prodImage" type="url" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 mb-2" placeholder="Paste image URL (https://...)">
+            <div id="fileDrop" class="file-drop rounded-xl p-4 text-center cursor-pointer" onclick="document.getElementById('prodFile').click()">
+              <i class="fas fa-cloud-arrow-up text-2xl text-zinc-500 mb-1"></i>
+              <div class="text-xs text-zinc-400">Click or drop image from PC</div>
+              <input id="prodFile" type="file" accept="image/*" class="hidden" onchange="handleFileUpload(event)">
+            </div>
+          </div>
+          <div class="w-24 h-24 rounded-xl bg-zinc-900 border border-white/10 overflow-hidden flex items-center justify-center">
+            <img id="prodImagePreview" class="w-full h-full object-cover hidden">
+            <i id="prodImagePlaceholder" class="fas fa-image text-2xl text-zinc-700"></i>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div>
+          <label class="text-xs text-zinc-400 mb-1 block">Rating (0-5)</label>
+          <input id="prodRating" type="number" min="0" max="5" step="0.1" value="4.5" class="w-24 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5">
+        </div>
+        <label class="flex items-center gap-2 mt-6 cursor-pointer">
+          <div id="featuredSwitch" class="switch" onclick="toggleSwitch('featuredSwitch','prodFeatured')"></div>
+          <input id="prodFeatured" type="hidden" value="false">
+          <span class="text-sm">Featured product</span>
+        </label>
+      </div>
+      <div class="flex justify-end gap-2 pt-3 border-t border-white/10">
+        <button type="button" onclick="closeProductModal()" class="px-5 py-2.5 rounded-xl border border-white/10 hover:bg-white/5 font-semibold text-sm">Cancel</button>
+        <button class="btn-primary text-white px-5 py-2.5 rounded-xl font-semibold text-sm">Save product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Admin Category Modal -->
+<div id="adminCategoryModal" class="fixed inset-0 z-50 modal-bg hidden items-center justify-center p-4">
+  <div class="bg-zinc-950 border border-white/10 rounded-2xl w-full max-w-md">
+    <div class="p-5 border-b border-white/10 flex justify-between items-center">
+      <h3 id="categoryModalTitle" class="font-display font-bold text-lg">Add category</h3>
+      <button onclick="closeCategoryModal()" class="w-9 h-9 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center"><i class="fas fa-xmark"></i></button>
+    </div>
+    <form onsubmit="saveCategory(event)" class="p-5 space-y-4">
+      <input type="hidden" id="catId">
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Category name *</label>
+        <input id="catName" type="text" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5" placeholder="e.g. Television">
+      </div>
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Icon (Font Awesome)</label>
+        <select id="catIcon" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5">
+          <option value="fa-tv">📺 TV</option><option value="fa-snowflake">❄️ Refrigerator</option>
+          <option value="fa-wind">💨 AC</option><option value="fa-shirt">👕 Washing Machine</option>
+          <option value="fa-headphones">🎧 Audio</option><option value="fa-blender">🔥 Appliance</option>
+          <option value="fa-laptop">💻 Laptop</option><option value="fa-mobile-screen">📱 Mobile</option>
+          <option value="fa-camera">📷 Camera</option><option value="fa-gamepad">🎮 Gaming</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Color</label>
+        <select id="catColor" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5">
+          <option value="text-rose-400">Rose</option><option value="text-sky-400">Sky</option>
+          <option value="text-emerald-400">Emerald</option><option value="text-amber-400">Amber</option>
+          <option value="text-violet-400">Violet</option><option value="text-pink-400">Pink</option>
+        </select>
+      </div>
+      <div class="flex justify-end gap-2 pt-3 border-t border-white/10">
+        <button type="button" onclick="closeCategoryModal()" class="px-5 py-2.5 rounded-xl border border-white/10 hover:bg-white/5 font-semibold text-sm">Cancel</button>
+        <button class="btn-primary text-white px-5 py-2.5 rounded-xl font-semibold text-sm">Save category</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Admin User Modal -->
+<div id="adminUserModal" class="fixed inset-0 z-50 modal-bg hidden items-center justify-center p-4">
+  <div class="bg-zinc-950 border border-white/10 rounded-2xl w-full max-w-md">
+    <div class="p-5 border-b border-white/10 flex justify-between items-center">
+      <h3 id="userModalTitle" class="font-display font-bold text-lg">Add user</h3>
+      <button onclick="closeUserModal()" class="w-9 h-9 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center"><i class="fas fa-xmark"></i></button>
+    </div>
+    <form onsubmit="saveUser(event)" class="p-5 space-y-4">
+      <input type="hidden" id="userId">
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Full name *</label>
+        <input id="userName" type="text" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5" placeholder="John Doe">
+      </div>
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Email *</label>
+        <input id="userEmail" type="email" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5" placeholder="user@email.com">
+      </div>
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Password *</label>
+        <input id="userPassword" type="text" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5" placeholder="Password">
+      </div>
+      <div>
+        <label class="text-xs text-zinc-400 mb-1 block">Role</label>
+        <select id="userRole" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5">
+          <option value="user">User</option><option value="admin">Admin</option>
+        </select>
+      </div>
+      <div class="flex justify-end gap-2 pt-3 border-t border-white/10">
+        <button type="button" onclick="closeUserModal()" class="px-5 py-2.5 rounded-xl border border-white/10 hover:bg-white/5 font-semibold text-sm">Cancel</button>
+        <button class="btn-primary text-white px-5 py-2.5 rounded-xl font-semibold text-sm">Save user</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div id="toastContainer" class="fixed top-5 right-5 z-[100] space-y-2"></div>
 
 <script>
-/* ============ DATA LAYER (shared with admin via localStorage) ============ */
+/* ============ DATA LAYER ============ */
 const DB = {
   get(key, def){ try{ return JSON.parse(localStorage.getItem(key)) ?? def; }catch{ return def; } },
   set(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
 };
 
-// Default data seeding
 function seedData(){
   if(!localStorage.getItem('rangs_products')){
-    const defaults = [
+    DB.set('rangs_products', [
       { id:'p1', name:'Samsung 55" Crystal UHD 4K Smart TV', category:'Television', price:78000, oldPrice:92000, image:'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=600&q=80', description:'Crystal UHD display with Quantum Dot, HDR 10+, Tizen OS, built-in streaming apps.', stock:14, featured:true, rating:4.7, createdAt:Date.now() },
       { id:'p2', name:'LG 1.5 Ton Inverter AC', category:'Air Conditioner', price:68000, oldPrice:82000, image:'https://images.unsplash.com/photo-1631545806609-29ea0c1c4c8f?w=600&q=80', description:'Dual inverter compressor, energy efficient, low noise, WiFi control ready.', stock:8, featured:true, rating:4.6, createdAt:Date.now()-86400000 },
       { id:'p3', name:'Whirlpool 290L Double Door Fridge', category:'Refrigerator', price:52000, oldPrice:60000, image:'https://images.unsplash.com/photo-1571175443880-7f22fa9c1d6c?w=600&q=80', description:'Frost-free, IntelliSense inverter, microblock technology, 10-year warranty.', stock:12, featured:true, rating:4.5, createdAt:Date.now()-172800000 },
@@ -428,8 +749,7 @@ function seedData(){
       { id:'p6', name:'Panasonic 32" HD LED TV', category:'Television', price:21500, oldPrice:25500, image:'https://images.unsplash.com/photo-1593784991095-a2050694eb10?w=600&q=80', description:'HD resolution, USB HDMI ports, vivid display, ideal for bedroom.', stock:20, featured:false, rating:4.2, createdAt:Date.now()-432000000 },
       { id:'p7', name:'JBL Flip 6 Portable Speaker', category:'Audio', price:13500, oldPrice:16000, image:'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&q=80', description:'Bold JBL sound, waterproof, 12 hour playtime, Bluetooth 5.1.', stock:30, featured:false, rating:4.8, createdAt:Date.now()-518400000 },
       { id:'p8', name:'Philips Air Fryer HD9252', category:'Appliance', price:16500, oldPrice:19000, image:'https://images.unsplash.com/photo-1626806787461-102c1d5b3b5b?w=600&q=80', description:'Rapid air technology, 4.1L capacity, digital controls, easy clean.', stock:18, featured:false, rating:4.6, createdAt:Date.now()-604800000 }
-    ];
-    DB.set('rangs_products', defaults);
+    ]);
   }
   if(!localStorage.getItem('rangs_categories')){
     DB.set('rangs_categories', [
@@ -442,20 +762,18 @@ function seedData(){
     ]);
   }
   if(!localStorage.getItem('rangs_users')){
-    DB.set('rangs_users', [
-      { id:'u1', name:'Admin User', email:'admin@rangs.com', password:'admin123', role:'admin', createdAt:Date.now() }
-    ]);
+    DB.set('rangs_users', [{ id:'u1', name:'Admin User', email:'admin@rangs.com', password:'admin123', role:'admin', createdAt:Date.now() }]);
   }
   if(!localStorage.getItem('rangs_orders')) DB.set('rangs_orders', []);
-  if(!localStorage.getItem('rangs_settings')){
-    DB.set('rangs_settings', { siteName:'RANGS', tagline:'PREMIUM STORE', currency:'৳' });
-  }
+  if(!localStorage.getItem('rangs_settings')) DB.set('rangs_settings', { siteName:'RANGS', tagline:'PREMIUM STORE', currency:'৳' });
 }
 seedData();
 
 /* ============ STATE ============ */
 let cart = DB.get('rangs_cart', []);
 let session = DB.get('rangs_session', null);
+let adminSession = DB.get('rangs_admin_session', null);
+let editingProductId = null, editingCategoryId = null, editingUserId = null;
 
 /* ============ HELPERS ============ */
 const fmt = n => '৳' + (n||0).toLocaleString('en-IN');
@@ -470,19 +788,45 @@ function toast(msg, type='success'){
 }
 function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-/* ============ RENDER CATEGORIES ============ */
+/* ============ VIEW SWITCHER ============ */
+function showStore(){
+  document.getElementById('adminView').classList.add('hidden');
+  document.getElementById('storeView').classList.remove('hidden');
+  renderStorefront(); // Re-render to reflect any admin changes
+}
+function showAdmin(){
+  document.getElementById('storeView').classList.add('hidden');
+  document.getElementById('adminView').classList.remove('hidden');
+  if(adminSession){ showAdminDashboard(); } else { showAdminLogin(); }
+}
+function showAdminLogin(){
+  document.getElementById('adminLoginScreen').classList.remove('hidden');
+  document.getElementById('adminDashboard').classList.add('hidden');
+}
+function showAdminDashboard(){
+  document.getElementById('adminLoginScreen').classList.add('hidden');
+  document.getElementById('adminDashboard').classList.remove('hidden');
+  document.getElementById('adminName').textContent = adminSession.name.split(' ')[0];
+  renderAdmin();
+}
+
+/* ============ STOREFRONT RENDERING ============ */
+function renderStorefront(){
+  renderCategories();
+  renderDeals();
+  renderProducts();
+  updateCartUI();
+  populateCategoryFilter();
+}
 function renderCategories(){
   const cats = DB.get('rangs_categories', []);
-  const html = cats.map(c => `
-    <button onclick="filterByCategory('${escapeHtml(c.name)}')" class="card-hover bg-zinc-900/60 border border-white/10 rounded-2xl p-5 text-left group">
-      <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-3">
-        <i class="fas ${c.icon} ${c.color} text-xl"></i>
-      </div>
+  document.getElementById('categoryGrid').innerHTML = cats.map(c => `
+    <button onclick="filterByCategory('${escapeHtml(c.name)}')" class="card-hover bg-zinc-900/60 border border-white/10 rounded-2xl p-5 text-left">
+      <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-3"><i class="fas ${c.icon} ${c.color} text-xl"></i></div>
       <div class="font-semibold text-sm">${escapeHtml(c.name)}</div>
       <div class="text-xs text-zinc-500 mt-0.5">${countProductsInCategory(c.name)} items</div>
     </button>
   `).join('');
-  document.getElementById('categoryGrid').innerHTML = html;
 }
 function countProductsInCategory(cat){ return DB.get('rangs_products',[]).filter(p=>p.category===cat).length; }
 function filterByCategory(name){
@@ -490,8 +834,11 @@ function filterByCategory(name){
   document.getElementById('products').scrollIntoView({behavior:'smooth'});
   renderProducts();
 }
-
-/* ============ RENDER PRODUCTS ============ */
+function populateCategoryFilter(){
+  const cats = DB.get('rangs_categories', []);
+  const sel = document.getElementById('filterCategory');
+  sel.innerHTML = '<option value="">All categories</option>' + cats.map(c=>`<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
+}
 function renderProducts(){
   const all = DB.get('rangs_products', []);
   const search = document.getElementById('searchInput').value.toLowerCase().trim();
@@ -509,51 +856,40 @@ function renderProducts(){
   const empty = document.getElementById('emptyState');
   if(list.length === 0){ grid.innerHTML=''; empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
-  grid.innerHTML = list.map(p => productCard(p)).join('');
-  // Re-bind quick-view events
-  grid.querySelectorAll('[data-quick]').forEach(btn => btn.onclick = () => openProduct(btn.dataset.quick));
-}
-
-function productCard(p){
-  const discount = p.oldPrice ? Math.round(((p.oldPrice - p.price)/p.oldPrice)*100) : 0;
-  const badge = p.oldPrice ? `<span class="badge-sale text-white text-[10px] font-bold px-2 py-1 rounded-md">-${discount}%</span>` : (p.featured ? `<span class="badge-hot text-white text-[10px] font-bold px-2 py-1 rounded-md">HOT</span>` : `<span class="badge-new text-white text-[10px] font-bold px-2 py-1 rounded-md">NEW</span>`);
-  return `
-    <div class="card-hover bg-zinc-900/60 border border-white/10 rounded-2xl overflow-hidden flex flex-col">
-      <div class="relative aspect-square bg-zinc-950 overflow-hidden">
-        <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x400/1a1a24/e11d48?text=No+Image'">
-        <div class="absolute top-2 left-2">${badge}</div>
-        <button data-quick="${p.id}" class="absolute top-2 right-2 w-8 h-8 rounded-lg bg-black/50 backdrop-blur hover:bg-rose-600 transition flex items-center justify-center" title="Quick view">
-          <i class="fas fa-eye text-xs"></i>
-        </button>
-      </div>
-      <div class="p-3 sm:p-4 flex flex-col flex-1">
-        <div class="text-[10px] text-rose-400 font-medium mb-1 uppercase tracking-wider">${escapeHtml(p.category||'')}</div>
-        <h3 class="font-semibold text-sm leading-snug line-clamp-2 mb-1.5">${escapeHtml(p.name)}</h3>
-        <div class="flex items-center gap-1 text-xs text-amber-400 mb-2">
-          <i class="fas fa-star"></i> ${p.rating||'4.5'}
-          <span class="text-zinc-500 ml-1">(${p.stock||0} in stock)</span>
-        </div>
-        <div class="mt-auto flex items-end justify-between gap-2">
-          <div>
-            <div class="font-display font-bold text-base">${fmt(p.price)}</div>
-            ${p.oldPrice ? `<div class="text-xs text-zinc-500 line-through">${fmt(p.oldPrice)}</div>` : ''}
-          </div>
-          <button onclick="addToCart('${p.id}')" class="btn-primary text-white w-9 h-9 rounded-xl flex items-center justify-center" title="Add to cart">
-            <i class="fas fa-plus text-sm"></i>
+  grid.innerHTML = list.map(p => {
+    const discount = p.oldPrice ? Math.round(((p.oldPrice - p.price)/p.oldPrice)*100) : 0;
+    const badge = p.oldPrice ? `<span class="badge-sale text-white text-[10px] font-bold px-2 py-1 rounded-md">-${discount}%</span>` : (p.featured ? `<span class="badge-hot text-white text-[10px] font-bold px-2 py-1 rounded-md">HOT</span>` : `<span class="badge-new text-white text-[10px] font-bold px-2 py-1 rounded-md">NEW</span>`);
+    return `
+      <div class="card-hover bg-zinc-900/60 border border-white/10 rounded-2xl overflow-hidden flex flex-col">
+        <div class="relative aspect-square bg-zinc-950 overflow-hidden">
+          <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x400/1a1a24/e11d48?text=No+Image'">
+          <div class="absolute top-2 left-2">${badge}</div>
+          <button onclick="openStoreProduct('${p.id}')" class="absolute top-2 right-2 w-8 h-8 rounded-lg bg-black/50 backdrop-blur hover:bg-rose-600 transition flex items-center justify-center" title="Quick view">
+            <i class="fas fa-eye text-xs"></i>
           </button>
         </div>
+        <div class="p-3 sm:p-4 flex flex-col flex-1">
+          <div class="text-[10px] text-rose-400 font-medium mb-1 uppercase tracking-wider">${escapeHtml(p.category||'')}</div>
+          <h3 class="font-semibold text-sm leading-snug line-clamp-2 mb-1.5">${escapeHtml(p.name)}</h3>
+          <div class="flex items-center gap-1 text-xs text-amber-400 mb-2"><i class="fas fa-star"></i> ${p.rating||'4.5'} <span class="text-zinc-500 ml-1">(${p.stock||0} in stock)</span></div>
+          <div class="mt-auto flex items-end justify-between gap-2">
+            <div>
+              <div class="font-display font-bold text-base">${fmt(p.price)}</div>
+              ${p.oldPrice ? `<div class="text-xs text-zinc-500 line-through">${fmt(p.oldPrice)}</div>` : ''}
+            </div>
+            <button onclick="addToCart('${p.id}')" class="btn-primary text-white w-9 h-9 rounded-xl flex items-center justify-center" title="Add to cart"><i class="fas fa-plus text-sm"></i></button>
+          </div>
+        </div>
       </div>
-    </div>
-  `;
+    `;
+  }).join('');
 }
-
-/* ============ FLASH DEALS ============ */
 function renderDeals(){
   const deals = DB.get('rangs_products',[]).filter(p=>p.oldPrice).sort((a,b)=> ((b.oldPrice-b.price)/b.oldPrice) - ((a.oldPrice-a.price)/a.oldPrice)).slice(0,4);
   document.getElementById('dealsGrid').innerHTML = deals.map(p=>{
     const discount = Math.round(((p.oldPrice - p.price)/p.oldPrice)*100);
     return `
-      <div class="bg-zinc-950/60 border border-white/10 rounded-2xl p-3 sm:p-4 hover:border-rose-500/40 transition group cursor-pointer" onclick="openProduct('${p.id}')">
+      <div class="bg-zinc-950/60 border border-white/10 rounded-2xl p-3 sm:p-4 hover:border-rose-500/40 transition group cursor-pointer" onclick="openStoreProduct('${p.id}')">
         <div class="aspect-square bg-zinc-900 rounded-xl mb-3 overflow-hidden">
           <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}" class="w-full h-full object-cover group-hover:scale-105 transition" onerror="this.src='https://via.placeholder.com/400x400/1a1a24/e11d48?text=No+Image'">
         </div>
@@ -567,19 +903,17 @@ function renderDeals(){
     `;
   }).join('');
 }
-
-/* ============ PRODUCT MODAL ============ */
-function openProduct(id){
+function openStoreProduct(id){
   const p = DB.get('rangs_products',[]).find(x=>x.id===id);
   if(!p) return;
   const discount = p.oldPrice ? Math.round(((p.oldPrice-p.price)/p.oldPrice)*100) : 0;
-  document.getElementById('productModalContent').innerHTML = `
+  document.getElementById('storeProductModalContent').innerHTML = `
     <div class="grid md:grid-cols-2 gap-0">
       <div class="bg-zinc-950 aspect-square overflow-hidden rounded-l-2xl">
         <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/600x600/1a1a24/e11d48?text=No+Image'">
       </div>
       <div class="p-7 relative">
-        <button onclick="closeProduct()" class="absolute top-4 right-4 w-9 h-9 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center"><i class="fas fa-xmark"></i></button>
+        <button onclick="closeStoreProduct()" class="absolute top-4 right-4 w-9 h-9 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center"><i class="fas fa-xmark"></i></button>
         <div class="text-xs text-rose-400 font-medium tracking-wider uppercase mb-2">${escapeHtml(p.category||'')}</div>
         <h2 class="font-display font-extrabold text-2xl mb-3">${escapeHtml(p.name)}</h2>
         <div class="flex items-center gap-3 mb-4">
@@ -593,8 +927,8 @@ function openProduct(id){
         </div>
         <p class="text-zinc-400 text-sm leading-relaxed mb-6">${escapeHtml(p.description||'No description available.')}</p>
         <div class="flex gap-2 mb-6">
-          <button onclick="addToCart('${p.id}'); closeProduct();" class="btn-primary text-white flex-1 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2"><i class="fas fa-bag-shopping"></i> Add to cart</button>
-          <button onclick="addToCart('${p.id}'); closeProduct(); toggleCart();" class="px-5 py-3.5 rounded-xl border border-white/15 hover:bg-white/5 font-semibold">Buy now</button>
+          <button onclick="addToCart('${p.id}'); closeStoreProduct();" class="btn-primary text-white flex-1 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2"><i class="fas fa-bag-shopping"></i> Add to cart</button>
+          <button onclick="addToCart('${p.id}'); closeStoreProduct(); toggleCart();" class="px-5 py-3.5 rounded-xl border border-white/15 hover:bg-white/5 font-semibold">Buy now</button>
         </div>
         <div class="grid grid-cols-3 gap-3 text-center text-xs">
           <div class="bg-white/5 rounded-xl p-3"><i class="fas fa-shield-halved text-rose-400 mb-1"></i><div>Warranty</div></div>
@@ -604,12 +938,12 @@ function openProduct(id){
       </div>
     </div>
   `;
-  document.getElementById('productModal').classList.remove('hidden');
-  document.getElementById('productModal').classList.add('flex');
+  document.getElementById('storeProductModal').classList.remove('hidden');
+  document.getElementById('storeProductModal').classList.add('flex');
 }
-function closeProduct(){
-  document.getElementById('productModal').classList.add('hidden');
-  document.getElementById('productModal').classList.remove('flex');
+function closeStoreProduct(){
+  document.getElementById('storeProductModal').classList.add('hidden');
+  document.getElementById('storeProductModal').classList.remove('flex');
 }
 
 /* ============ CART ============ */
@@ -625,18 +959,13 @@ function addToCart(id){
   const counter = document.getElementById('cartCount');
   counter.classList.remove('cart-bump'); void counter.offsetWidth; counter.classList.add('cart-bump');
 }
-function removeFromCart(id){
-  cart = cart.filter(i=>i.id!==id);
-  DB.set('rangs_cart', cart);
-  updateCartUI();
-}
+function removeFromCart(id){ cart = cart.filter(i=>i.id!==id); DB.set('rangs_cart', cart); updateCartUI(); }
 function changeQty(id, delta){
   const item = cart.find(i=>i.id===id);
   if(!item) return;
   item.qty += delta;
   if(item.qty<=0) cart = cart.filter(i=>i.id!==id);
-  DB.set('rangs_cart', cart);
-  updateCartUI();
+  DB.set('rangs_cart', cart); updateCartUI();
 }
 function updateCartUI(){
   const count = cart.reduce((s,i)=>s+i.qty,0);
@@ -681,7 +1010,7 @@ function checkout(){
   toast('Order placed successfully!');
 }
 
-/* ============ AUTH ============ */
+/* ============ USER AUTH ============ */
 function openAuth(){ document.getElementById('authModal').classList.remove('hidden'); document.getElementById('authModal').classList.add('flex'); }
 function closeAuth(){ document.getElementById('authModal').classList.add('hidden'); document.getElementById('authModal').classList.remove('flex'); }
 function switchAuthTab(tab){
@@ -699,8 +1028,7 @@ function switchAuthTab(tab){
 }
 function doLogin(e){
   e.preventDefault();
-  const email = e.target[0].value;
-  const pass = e.target[1].value;
+  const email = e.target[0].value, pass = e.target[1].value;
   const users = DB.get('rangs_users',[]);
   const user = users.find(u=>u.email===email && u.password===pass);
   if(!user){ toast('Invalid credentials','error'); return; }
@@ -723,6 +1051,403 @@ function doRegister(e){
 }
 function subscribeNewsletter(e){ e.preventDefault(); e.target.reset(); toast('Subscribed successfully!'); }
 
+/* ============ ADMIN AUTH ============ */
+function adminLogin(e){
+  e.preventDefault();
+  const email = document.getElementById('adminEmail').value;
+  const pass = document.getElementById('adminPass').value;
+  const users = DB.get('rangs_users', []);
+  const user = users.find(u=>u.email===email && u.password===pass && u.role==='admin');
+  if(!user){ toast('Invalid admin credentials', 'error'); return; }
+  adminSession = { id:user.id, name:user.name, email:user.email, role:user.role };
+  DB.set('rangs_admin_session', adminSession);
+  showAdminDashboard();
+  toast('Welcome back, ' + user.name.split(' ')[0]);
+}
+function adminLogout(){
+  localStorage.removeItem('rangs_admin_session');
+  adminSession = null;
+  showAdminLogin();
+}
+
+/* ============ ADMIN NAVIGATION ============ */
+const sectionMeta = {
+  dashboard: { title:'Dashboard', sub:'Welcome back, manage your store' },
+  products: { title:'Products', sub:'Add, edit and manage your product catalog' },
+  categories: { title:'Categories', sub:'Organize products into categories' },
+  orders: { title:'Orders', sub:'View and manage customer orders' },
+  users: { title:'Users', sub:'Manage admin and customer accounts' },
+  settings: { title:'Settings', sub:'Configure your store preferences' }
+};
+function adminNav(section){
+  Object.keys(sectionMeta).forEach(s=> document.getElementById('asection-'+s).classList.toggle('hidden', s!==section) );
+  document.querySelectorAll('.sidebar-link').forEach(b=>b.classList.toggle('active', b.dataset.asection===section));
+  document.getElementById('pageTitle').textContent = sectionMeta[section].title;
+  document.getElementById('pageSubtitle').textContent = sectionMeta[section].sub;
+}
+function renderAdmin(){
+  renderDashboard();
+  renderProductsTable();
+  renderCategories();
+  renderOrders();
+  renderUsers();
+  loadSettings();
+  populateAdminCategoryDropdowns();
+}
+
+/* ============ ADMIN DASHBOARD ============ */
+function renderDashboard(){
+  document.getElementById('statProducts').textContent = DB.get('rangs_products', []).length;
+  document.getElementById('statOrders').textContent = DB.get('rangs_orders', []).length;
+  document.getElementById('statUsers').textContent = DB.get('rangs_users', []).length;
+  document.getElementById('statCategories').textContent = DB.get('rangs_categories', []).length;
+  
+  const recent = [...DB.get('rangs_products', [])].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,5);
+  document.getElementById('recentProducts').innerHTML = recent.length ? recent.map(p=>`
+    <div class="flex items-center gap-3 row-hover p-2 rounded-lg">
+      <img src="${escapeHtml(p.image)}" class="w-10 h-10 rounded-lg object-cover" onerror="this.src='https://via.placeholder.com/40/1a1a24/e11d48?text=No'">
+      <div class="flex-1 min-w-0">
+        <div class="text-sm font-semibold line-clamp-1">${escapeHtml(p.name)}</div>
+        <div class="text-xs text-zinc-500">${escapeHtml(p.category)} • ${fmt(p.price)}</div>
+      </div>
+      <div class="text-xs ${p.stock>0?'text-emerald-400':'text-rose-400'}">${p.stock>0?'In stock':'Out'}</div>
+    </div>
+  `).join('') : '<div class="text-zinc-500 text-sm text-center py-6">No products yet</div>';
+  
+  const recentOrders = [...DB.get('rangs_orders', [])].sort((a,b)=>(b.date||0)-(a.date||0)).slice(0,5);
+  document.getElementById('recentOrders').innerHTML = recentOrders.length ? recentOrders.map(o=>`
+    <div class="flex items-center justify-between p-2 rounded-lg row-hover">
+      <div>
+        <div class="text-sm font-semibold">#${o.id.slice(-6)}</div>
+        <div class="text-xs text-zinc-500">${escapeHtml(o.userEmail||'')}</div>
+      </div>
+      <div class="text-right">
+        <div class="text-sm font-bold">${fmt(o.total)}</div>
+        <div class="text-[10px] text-amber-400 uppercase">${o.status||'pending'}</div>
+      </div>
+    </div>
+  `).join('') : '<div class="text-zinc-500 text-sm text-center py-6">No orders yet</div>';
+}
+
+/* ============ ADMIN PRODUCTS CRUD ============ */
+function populateAdminCategoryDropdowns(){
+  const cats = DB.get('rangs_categories', []);
+  const opts = cats.map(c=>`<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
+  document.getElementById('prodCategory').innerHTML = opts || '<option value="">Create a category first</option>';
+  document.getElementById('productCatFilter').innerHTML = '<option value="">All categories</option>' + opts;
+}
+function renderProductsTable(){
+  const search = document.getElementById('productSearch').value.toLowerCase().trim();
+  const cat = document.getElementById('productCatFilter').value;
+  let list = DB.get('rangs_products', []);
+  if(search) list = list.filter(p=>p.name.toLowerCase().includes(search));
+  if(cat) list = list.filter(p=>p.category===cat);
+  if(list.length===0){ document.getElementById('productsTable').innerHTML = '<tr><td colspan="6" class="text-center text-zinc-500 py-8">No products found</td></tr>'; return; }
+  document.getElementById('productsTable').innerHTML = list.map(p=>`
+    <tr class="border-b border-white/5 row-hover">
+      <td class="py-3 px-3">
+        <div class="flex items-center gap-3">
+          <img src="${escapeHtml(p.image)}" class="w-10 h-10 rounded-lg object-cover" onerror="this.src='https://via.placeholder.com/40/1a1a24/e11d48?text=No'">
+          <div class="min-w-0">
+            <div class="font-semibold line-clamp-1">${escapeHtml(p.name)}</div>
+            <div class="text-xs text-zinc-500">#${p.id.slice(-6)}</div>
+          </div>
+        </div>
+      </td>
+      <td class="px-3 text-zinc-300">${escapeHtml(p.category)}</td>
+      <td class="px-3">
+        <div class="font-semibold">${fmt(p.price)}</div>
+        ${p.oldPrice?`<div class="text-xs text-zinc-500 line-through">${fmt(p.oldPrice)}</div>`:''}
+      </td>
+      <td class="px-3"><span class="${p.stock>0?'text-emerald-400':'text-rose-400'}">${p.stock||0}</span></td>
+      <td class="px-3">${p.featured?'<i class="fas fa-star text-amber-400"></i>':'<span class="text-zinc-600">—</span>'}</td>
+      <td class="px-3 text-right">
+        <button onclick="editProduct('${p.id}')" class="w-8 h-8 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 mr-1"><i class="fas fa-pen text-xs"></i></button>
+        <button onclick="deleteProduct('${p.id}')" class="w-8 h-8 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400"><i class="fas fa-trash text-xs"></i></button>
+      </td>
+    </tr>
+  `).join('');
+}
+function openProductModal(){
+  editingProductId = null;
+  document.getElementById('adminProductModalTitle').textContent = 'Add new product';
+  document.getElementById('productForm').reset();
+  document.getElementById('prodId').value = '';
+  document.getElementById('prodImagePreview').classList.add('hidden');
+  document.getElementById('prodImagePlaceholder').classList.remove('hidden');
+  setSwitch('featuredSwitch', false);
+  document.getElementById('adminProductModal').classList.remove('hidden');
+  document.getElementById('adminProductModal').classList.add('flex');
+}
+function editProduct(id){
+  const p = DB.get('rangs_products', []).find(x=>x.id===id);
+  if(!p) return;
+  editingProductId = id;
+  document.getElementById('adminProductModalTitle').textContent = 'Edit product';
+  document.getElementById('prodId').value = p.id;
+  document.getElementById('prodName').value = p.name;
+  document.getElementById('prodCategory').value = p.category;
+  document.getElementById('prodStock').value = p.stock||0;
+  document.getElementById('prodPrice').value = p.price;
+  document.getElementById('prodOldPrice').value = p.oldPrice||'';
+  document.getElementById('prodDescription').value = p.description||'';
+  document.getElementById('prodImage').value = (p.image||'').startsWith('data:')?'':p.image;
+  document.getElementById('prodRating').value = p.rating||4.5;
+  setSwitch('featuredSwitch', !!p.featured);
+  if(p.image){
+    document.getElementById('prodImagePreview').src = p.image;
+    document.getElementById('prodImagePreview').classList.remove('hidden');
+    document.getElementById('prodImagePlaceholder').classList.add('hidden');
+  }
+  document.getElementById('adminProductModal').classList.remove('hidden');
+  document.getElementById('adminProductModal').classList.add('flex');
+}
+function closeProductModal(){
+  document.getElementById('adminProductModal').classList.add('hidden');
+  document.getElementById('adminProductModal').classList.remove('flex');
+}
+function handleFileUpload(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  if(file.size > 2*1024*1024){ toast('Image too large (max 2MB for storage)', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('prodImage').value = ev.target.result;
+    document.getElementById('prodImagePreview').src = ev.target.result;
+    document.getElementById('prodImagePreview').classList.remove('hidden');
+    document.getElementById('prodImagePlaceholder').classList.add('hidden');
+  };
+  reader.readAsDataURL(file);
+}
+function saveProduct(e){
+  e.preventDefault();
+  const id = document.getElementById('prodId').value || 'p'+Date.now();
+  const img = document.getElementById('prodImage').value.trim();
+  if(!img){ toast('Please add an image (URL or upload)', 'error'); return; }
+  const product = {
+    id, name: document.getElementById('prodName').value.trim(),
+    category: document.getElementById('prodCategory').value,
+    price: parseFloat(document.getElementById('prodPrice').value),
+    oldPrice: document.getElementById('prodOldPrice').value ? parseFloat(document.getElementById('prodOldPrice').value) : null,
+    description: document.getElementById('prodDescription').value.trim(),
+    image: img, stock: parseInt(document.getElementById('prodStock').value)||0,
+    featured: document.getElementById('prodFeatured').value === 'true',
+    rating: parseFloat(document.getElementById('prodRating').value)||4.5,
+    createdAt: editingProductId ? (DB.get('rangs_products',[]).find(p=>p.id===id)?.createdAt||Date.now()) : Date.now()
+  };
+  const products = DB.get('rangs_products', []);
+  const idx = products.findIndex(p=>p.id===id);
+  if(idx>=0) products[idx] = product; else products.push(product);
+  DB.set('rangs_products', products);
+  closeProductModal();
+  renderAdmin();
+  toast(editingProductId ? 'Product updated' : 'Product added');
+}
+function deleteProduct(id){
+  if(!confirm('Delete this product? This cannot be undone.')) return;
+  DB.set('rangs_products', DB.get('rangs_products', []).filter(p=>p.id!==id));
+  renderAdmin();
+  toast('Product deleted');
+}
+
+/* ============ ADMIN CATEGORIES CRUD ============ */
+function renderCategories(){
+  const cats = DB.get('rangs_categories', []);
+  document.getElementById('categoriesList').innerHTML = cats.map(c=>`
+    <div class="bg-zinc-950 border border-white/10 rounded-2xl p-4 flex items-start justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center"><i class="fas ${c.icon} ${c.color} text-xl"></i></div>
+        <div>
+          <div class="font-semibold">${escapeHtml(c.name)}</div>
+          <div class="text-xs text-zinc-500">${countProductsInCategory(c.name)} products</div>
+        </div>
+      </div>
+      <div class="flex gap-1">
+        <button onclick="editCategory('${c.id}')" class="w-8 h-8 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 text-sky-400"><i class="fas fa-pen text-xs"></i></button>
+        <button onclick="deleteCategory('${c.id}')" class="w-8 h-8 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400"><i class="fas fa-trash text-xs"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
+function openCategoryModal(){
+  editingCategoryId = null;
+  document.getElementById('categoryModalTitle').textContent = 'Add category';
+  document.getElementById('catId').value = ''; document.getElementById('catName').value = '';
+  document.getElementById('catIcon').value = 'fa-tv'; document.getElementById('catColor').value = 'text-rose-400';
+  document.getElementById('adminCategoryModal').classList.remove('hidden');
+  document.getElementById('adminCategoryModal').classList.add('flex');
+}
+function editCategory(id){
+  const c = DB.get('rangs_categories', []).find(x=>x.id===id);
+  if(!c) return;
+  editingCategoryId = id;
+  document.getElementById('categoryModalTitle').textContent = 'Edit category';
+  document.getElementById('catId').value = c.id; document.getElementById('catName').value = c.name;
+  document.getElementById('catIcon').value = c.icon; document.getElementById('catColor').value = c.color;
+  document.getElementById('adminCategoryModal').classList.remove('hidden');
+  document.getElementById('adminCategoryModal').classList.add('flex');
+}
+function closeCategoryModal(){
+  document.getElementById('adminCategoryModal').classList.add('hidden');
+  document.getElementById('adminCategoryModal').classList.remove('flex');
+}
+function saveCategory(e){
+  e.preventDefault();
+  const id = document.getElementById('catId').value || 'c'+Date.now();
+  const category = { id, name: document.getElementById('catName').value.trim(), icon: document.getElementById('catIcon').value, color: document.getElementById('catColor').value };
+  const cats = DB.get('rangs_categories', []);
+  const idx = cats.findIndex(c=>c.id===id);
+  if(idx>=0) cats[idx] = category; else cats.push(category);
+  DB.set('rangs_categories', cats);
+  closeCategoryModal();
+  renderAdmin();
+  toast(editingCategoryId ? 'Category updated' : 'Category added');
+}
+function deleteCategory(id){
+  const c = DB.get('rangs_categories', []).find(x=>x.id===id);
+  if(c && countProductsInCategory(c.name)>0){ toast('Cannot delete: products exist in this category','error'); return; }
+  if(!confirm('Delete this category?')) return;
+  DB.set('rangs_categories', DB.get('rangs_categories', []).filter(x=>x.id!==id));
+  renderAdmin();
+  toast('Category deleted');
+}
+
+/* ============ ADMIN ORDERS ============ */
+function renderOrders(){
+  const orders = DB.get('rangs_orders', []).sort((a,b)=>(b.date||0)-(a.date||0));
+  if(orders.length===0){ document.getElementById('ordersList').innerHTML = '<div class="text-center text-zinc-500 py-10"><i class="fas fa-receipt text-4xl mb-3 text-zinc-700"></i><p>No orders yet</p></div>'; return; }
+  document.getElementById('ordersList').innerHTML = orders.map(o=>`
+    <div class="bg-zinc-950 border border-white/10 rounded-2xl p-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+        <div>
+          <div class="font-display font-bold">#${o.id.slice(-6)}</div>
+          <div class="text-xs text-zinc-500">${escapeHtml(o.userEmail||'')} • ${new Date(o.date).toLocaleString()}</div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="font-bold">${fmt(o.total)}</div>
+          <select onchange="updateOrderStatus('${o.id}', this.value)" class="bg-white/5 border border-white/10 rounded-lg px-2 py-1.5 text-xs">
+            <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
+            <option value="processing" ${o.status==='processing'?'selected':''}>Processing</option>
+            <option value="shipped" ${o.status==='shipped'?'selected':''}>Shipped</option>
+            <option value="delivered" ${o.status==='delivered'?'selected':''}>Delivered</option>
+            <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option>
+          </select>
+          <button onclick="deleteOrder('${o.id}')" class="w-8 h-8 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400"><i class="fas fa-trash text-xs"></i></button>
+        </div>
+      </div>
+      <div class="space-y-1.5 text-sm">
+        ${(o.items||[]).map(i=>`<div class="flex justify-between text-zinc-400"><span>${escapeHtml(i.name)} × ${i.qty}</span><span>${fmt(i.price*i.qty)}</span></div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+function updateOrderStatus(id, status){
+  const orders = DB.get('rangs_orders', []);
+  const o = orders.find(x=>x.id===id); if(o) o.status = status;
+  DB.set('rangs_orders', orders);
+  toast('Order status updated');
+}
+function deleteOrder(id){
+  if(!confirm('Delete this order?')) return;
+  DB.set('rangs_orders', DB.get('rangs_orders', []).filter(o=>o.id!==id));
+  renderAdmin();
+  toast('Order deleted');
+}
+
+/* ============ ADMIN USERS CRUD ============ */
+function renderUsers(){
+  const users = DB.get('rangs_users', []);
+  document.getElementById('usersList').innerHTML = users.map(u=>`
+    <div class="flex items-center justify-between bg-zinc-950 border border-white/10 rounded-xl p-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl ${u.role==='admin'?'bg-gradient-to-br from-rose-600 to-rose-900':'bg-zinc-800'} flex items-center justify-center font-bold">${escapeHtml(u.name.charAt(0).toUpperCase())}</div>
+        <div>
+          <div class="font-semibold">${escapeHtml(u.name)}</div>
+          <div class="text-xs text-zinc-500">${escapeHtml(u.email)}</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-xs px-2 py-1 rounded-md ${u.role==='admin'?'bg-rose-500/10 text-rose-400':'bg-sky-500/10 text-sky-400'}">${u.role}</span>
+        <button onclick="editUser('${u.id}')" class="w-8 h-8 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 text-sky-400"><i class="fas fa-pen text-xs"></i></button>
+        <button onclick="deleteUser('${u.id}')" class="w-8 h-8 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400"><i class="fas fa-trash text-xs"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
+function openUserModal(){
+  editingUserId = null;
+  document.getElementById('userModalTitle').textContent = 'Add user';
+  document.getElementById('userId').value = ''; document.getElementById('userName').value = '';
+  document.getElementById('userEmail').value = ''; document.getElementById('userPassword').value = '';
+  document.getElementById('userRole').value = 'user';
+  document.getElementById('adminUserModal').classList.remove('hidden');
+  document.getElementById('adminUserModal').classList.add('flex');
+}
+function editUser(id){
+  const u = DB.get('rangs_users', []).find(x=>x.id===id);
+  if(!u) return;
+  editingUserId = id;
+  document.getElementById('userModalTitle').textContent = 'Edit user';
+  document.getElementById('userId').value = u.id; document.getElementById('userName').value = u.name;
+  document.getElementById('userEmail').value = u.email; document.getElementById('userPassword').value = u.password;
+  document.getElementById('userRole').value = u.role;
+  document.getElementById('adminUserModal').classList.remove('hidden');
+  document.getElementById('adminUserModal').classList.add('flex');
+}
+function closeUserModal(){
+  document.getElementById('adminUserModal').classList.add('hidden');
+  document.getElementById('adminUserModal').classList.remove('flex');
+}
+function saveUser(e){
+  e.preventDefault();
+  const id = document.getElementById('userId').value || 'u'+Date.now();
+  const email = document.getElementById('userEmail').value.trim();
+  const users = DB.get('rangs_users', []);
+  if(!editingUserId && users.find(u=>u.email===email)){ toast('Email already exists','error'); return; }
+  const user = { id, name: document.getElementById('userName').value.trim(), email, password: document.getElementById('userPassword').value, role: document.getElementById('userRole').value, createdAt: editingUserId ? (users.find(u=>u.id===id)?.createdAt||Date.now()) : Date.now() };
+  const idx = users.findIndex(u=>u.id===id);
+  if(idx>=0) users[idx] = user; else users.push(user);
+  DB.set('rangs_users', users);
+  closeUserModal();
+  renderAdmin();
+  toast(editingUserId ? 'User updated' : 'User added');
+}
+function deleteUser(id){
+  if(adminSession && id === adminSession.id){ toast('Cannot delete yourself', 'error'); return; }
+  if(!confirm('Delete this user?')) return;
+  DB.set('rangs_users', DB.get('rangs_users', []).filter(u=>u.id!==id));
+  renderAdmin();
+  toast('User deleted');
+}
+
+/* ============ SETTINGS & SWITCHES ============ */
+function loadSettings(){
+  const s = DB.get('rangs_settings', {});
+  document.getElementById('setName').value = s.siteName||'';
+  document.getElementById('setTagline').value = s.tagline||'';
+  document.getElementById('setCurrency').value = s.currency||'৳';
+}
+function saveSettings(e){
+  e.preventDefault();
+  DB.set('rangs_settings', { siteName: document.getElementById('setName').value, tagline: document.getElementById('setTagline').value, currency: document.getElementById('setCurrency').value });
+  toast('Settings saved');
+}
+function resetAllData(){
+  if(!confirm('This will permanently DELETE everything (products, categories, users, orders). Continue?')) return;
+  if(!confirm('Are you absolutely sure? This cannot be undone.')) return;
+  ['rangs_products','rangs_categories','rangs_users','rangs_orders','rangs_cart','rangs_session','rangs_admin_session'].forEach(k=>localStorage.removeItem(k));
+  location.reload();
+}
+function toggleSwitch(switchId, inputId){
+  const sw = document.getElementById(switchId);
+  sw.classList.toggle('on');
+  document.getElementById(inputId).value = sw.classList.contains('on');
+}
+function setSwitch(switchId, on){
+  const sw = document.getElementById(switchId);
+  if(on) sw.classList.add('on'); else sw.classList.remove('on');
+}
+
 /* ============ DEAL TIMER ============ */
 function tickTimer(){
   let h = parseInt(document.getElementById('dealH').textContent);
@@ -735,21 +1460,24 @@ function tickTimer(){
 }
 setInterval(tickTimer, 1000);
 
-/* ============ INIT ============ */
-function populateCategoryFilter(){
-  const cats = DB.get('rangs_categories',[]);
-  const sel = document.getElementById('filterCategory');
-  sel.innerHTML = '<option value="">All categories</option>' + cats.map(c=>`<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
+/* ============ FILE DRAG/DROP ============ */
+const drop = document.getElementById('fileDrop');
+if(drop){
+  ['dragover','dragenter'].forEach(ev=>drop.addEventListener(ev, e=>{e.preventDefault();drop.classList.add('drag');}));
+  ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev, e=>{e.preventDefault();drop.classList.remove('drag');}));
+  drop.addEventListener('drop', e=>{
+    const file = e.dataTransfer.files[0];
+    if(file){ document.getElementById('prodFile').files = e.dataTransfer.files; handleFileUpload({target:{files:[file]}}); }
+  });
 }
+
+/* ============ EVENT LISTENERS ============ */
 document.getElementById('searchInput').addEventListener('input', renderProducts);
 document.getElementById('filterCategory').addEventListener('change', renderProducts);
 document.getElementById('sortProducts').addEventListener('change', renderProducts);
 
-populateCategoryFilter();
-renderCategories();
-renderDeals();
-renderProducts();
-updateCartUI();
+/* ============ INIT ============ */
+showStore(); // Always start on store view
 </script>
 </body>
 </html>
